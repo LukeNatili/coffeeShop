@@ -17,9 +17,7 @@
   <header class="navbar navbar-expand-lg navbar-dark sticky-top nav-elegant">
     <div class="container">
       <a class="navbar-brand d-flex align-items-center brand-elegant" href="#">
-        <!-- Small circular brand image for quick brand recognition -->
-        <img src="https://images.unsplash.com/photo-1503481766315-7a586b20f66b?w=80&q=80&auto=format&fit=crop" alt="Brewed Bliss" class="logo rounded-circle me-2">
-        <span>Brewed Bliss</span>
+        <span>XYZ Coffee</span>
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
         <span class="navbar-toggler-icon"></span>
@@ -39,9 +37,8 @@
   <!-- Hero: photo + gradients for legibility; strong call to action -->
   <section class="hero-elegant d-flex align-items-center text-center text-white">
     <div class="container">
-      <h1 class="display-5 fw-bold mb-2 hero-title">Craft Coffee. Loyal Shoppers.</h1>
-      <p class="lead mb-4 hero-sub">Create profiles, track preferences, and reward loyalty.</p>
-      <a href="#new" class="btn btn-amber-elegant btn-lg fw-semibold">Add Shopper</a>
+      <h1 class="display-5 fw-bold mb-2 hero-title">XYZ Coffee Shop Loyalty Club.</h1>
+      <p class="lead mb-4 hero-sub">Become a member today!.</p>
     </div>
   </section>
 
@@ -52,7 +49,7 @@
       <div class="col-12 col-lg-5">
         <div class="card shadow-lg border-0 panel-elegant" id="new">
           <div class="card-body p-4">
-            <h2 class="h4 fw-bold mb-3 section-title">Shopper Details</h2>
+            <h2 class="h4 fw-bold mb-3 section-title">Online Rewards Sign Up</h2>
 
             <!-- Validation is handled by Bootstrap classes + JS below -->
             <form id="shopperForm" class="needs-validation" novalidate>
@@ -90,12 +87,11 @@
                   <label for="state" class="form-label">State</label>
                   <select id="state" name="state" class="form-select control-elegant" autocomplete="address-level1">
                     <option value="">Choose...</option>
-                    <option>PA</option><option>NY</option><option>NJ</option><option>MD</option><option>VA</option><option>CA</option>
                   </select>
                 </div>
                 <div class="col-md-3">
                   <label for="zip" class="form-label">ZIP</label>
-                  <input type="text" class="form-control control-elegant" id="zip" name="zip" pattern="^\d{5}(-\d{4})?$" inputmode="numeric" autocomplete="postal-code" placeholder="17013">
+                  <input type="text" class="form-control control-elegant" id="zip" name="zip" pattern="^\d{5}$" inputmode="numeric" autocomplete="postal-code" placeholder="Zip Code">
                   <div class="invalid-feedback">Enter a valid ZIP</div>
                 </div>
                 <div class="col-md-6">
@@ -105,12 +101,8 @@
                   </select>
                 </div>
                 <div class="col-md-6">
-                  <label for="sweetness" class="form-label">Sweetness</label>
-                  <input type="range" class="form-range control-range" id="sweetness" name="sweetness" min="0" max="5" step="1" value="2">
-                </div>
-                <div class="col-md-6">
                   <label for="loyalty" class="form-label">Loyalty ID</label>
-                  <input type="text" class="form-control control-elegant" id="loyalty" name="loyalty" placeholder="BLISS-0001">
+                  <input type="text" class="form-control control-elegant" id="loyalty" name="loyalty" placeholder="Enter Loyalty Card Number Here">
                 </div>
                 <!-- Unique id for select; `perksSection` is used for the section anchor below -->
                 <div class="col-md-6">
@@ -118,10 +110,6 @@
                   <select id="perksSelect" name="perks" class="form-select control-elegant">
                     <option>Standard</option><option>Gold</option><option>Platinum</option>
                   </select>
-                </div>
-                <div class="col-12">
-                  <label for="notes" class="form-label">Notes</label>
-                  <textarea id="notes" name="notes" class="form-control control-elegant" rows="3" placeholder="Oat milk, extra hot..."></textarea>
                 </div>
                 <div class="col-12 d-grid d-md-flex gap-2 mt-2">
                   <button class="btn btn-amber-elegant fw-semibold" type="submit">Save Shopper</button>
@@ -131,37 +119,7 @@
             </form>
           </div>
         </div>
-      </div>
-
-      <!-- Right column: shopper list (search, edit, delete, export) -->
-      <div class="col-12 col-lg-7">
-        <div class="card shadow-lg border-0 panel-elegant">
-          <div class="card-body p-4">
-            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
-              <h2 class="h4 fw-bold m-0 section-title">Shopper List</h2>
-              <div class="d-flex gap-2">
-                <!-- Instant text filter -->
-                <input id="search" class="form-control control-elegant" placeholder="Search shoppers">
-                <!-- Exports localStorage data as a JSON file -->
-                <button id="exportBtn" class="btn btn-outline-elegant" type="button">Export JSON</button>
-              </div>
-            </div>
-            <div class="table-responsive rounded overflow-hidden table-shell">
-              <table class="table align-middle mb-0 table-hover table-elegant" id="shopperTable">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Favorite</th>
-                    <th>Perks</th>
-                    <th class="text-end">Actions</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+      </div>  
 
         <!-- Menu teaser cards to keep the page visually rich -->
         <section id="menu" class="mt-4">
@@ -170,8 +128,6 @@
               <div class="menu-card-elegant">
                 <img src="https://images.unsplash.com/photo-1504753793650-d4a2b783c15e?w=900&q=80&auto=format&fit=crop" alt="Latte art">
                 <div class="menu-overlay-elegant">
-                  <h3 class="menu-title">Signature Latte</h3>
-                  <p class="menu-sub">Velvety steamed milk and rich espresso.</p>
                 </div>
               </div>
             </div>
@@ -179,15 +135,13 @@
               <div class="menu-card-elegant">
                 <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?w=900&q=80&auto=format&fit=crop" alt="Espresso shot">
                 <div class="menu-overlay-elegant">
-                  <h3 class="menu-title">Double Espresso</h3>
-                  <p class="menu-sub">Bold, sweet, and deeply aromatic.</p>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        <!-- Unique id separate from the form's perks select -->
+        <!-- Do we need this on the signup page? -->
         <section id="perksSection" class="mt-4">
           <div class="row g-3">
             <div class="col-md-12">
@@ -207,115 +161,11 @@
 
   <!-- Footer with live year -->
   <footer class="py-5 text-center small footer-elegant">
-    © <span id="year"></span> Brewed Bliss Coffee
+    <span id="year"></span> IST256 Group Project 
   </footer>
 
   <!-- JS: Bootstrap bundle + page logic -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-  <script>
-    /* Data bindings */
-    const form = document.getElementById('shopperForm');
-    const tableBody = document.querySelector('#shopperTable tbody');
-    const search = document.getElementById('search');
-    const yearEl = document.getElementById('year');
-    const resetBtn = document.getElementById('resetBtn');
-    const exportBtn = document.getElementById('exportBtn');
-    const editingIndex = document.getElementById('editingIndex');
-    const inputs = {
-      firstName: document.getElementById('firstName'),
-      lastName: document.getElementById('lastName'),
-      email: document.getElementById('email'),
-      phone: document.getElementById('phone'),
-      address: document.getElementById('address'),
-      city: document.getElementById('city'),
-      state: document.getElementById('state'),
-      zip: document.getElementById('zip'),
-      favorite: document.getElementById('favorite'),
-      sweetness: document.getElementById('sweetness'),
-      loyalty: document.getElementById('loyalty'),
-      perks: document.getElementById('perksSelect'),
-      notes: document.getElementById('notes')
-    };
-
-    /* Utilities */
-    yearEl.textContent = new Date().getFullYear();
-    const storageKey = 'bb_shoppers_v1';
-    const load = () => { try { return JSON.parse(localStorage.getItem(storageKey)) || []; } catch { return []; } };
-    const save = list => localStorage.setItem(storageKey, JSON.stringify(list));
-    const toObj = () => Object.fromEntries(Object.entries(inputs).map(([k,el])=>[k, el.type==='range'? Number(el.value): el.value.trim()]));
-    const clearForm = () => { form.reset(); editingIndex.value=''; form.classList.remove('was-validated'); };
-    const fullName = s => `${s.firstName} ${s.lastName}`.trim();
-
-    /* Render table rows (filtered by search) */
-    function render(list){
-      const q = search.value.trim().toLowerCase();
-      tableBody.innerHTML = '';
-      list.filter(s => !q || fullName(s).toLowerCase().includes(q) || s.email.toLowerCase().includes(q))
-          .forEach((s,i) => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-              <td>${fullName(s)}</td>
-              <td>${s.email}</td>
-              <td>${s.favorite}</td>
-              <td>${s.perks}</td>
-              <td class="text-end">
-                <button class="btn btn-sm btn-dark me-2" type="button" data-action="edit" data-index="${i}">Edit</button>
-                <button class="btn btn-sm btn-outline-danger" type="button" data-action="delete" data-index="${i}">Delete</button>
-              </td>`;
-            tableBody.appendChild(tr);
-          });
-    }
-
-    /* Create or update a shopper; uses hidden input to track edit index */
-    function upsert(e){
-      e.preventDefault();
-      e.stopPropagation();
-      if(!form.checkValidity()){ form.classList.add('was-validated'); return; }
-      const list = load();
-      const obj = toObj();
-      const idx = editingIndex.value === '' ? -1 : Number(editingIndex.value);
-      if(idx >= 0){ list[idx] = obj; } else { list.push(obj); }
-      save(list);
-      clearForm();
-      render(list);
-    }
-
-    /* Table actions: Edit fills the form; Delete removes the record */
-    function handleTable(e){
-      const btn = e.target.closest('button');
-      if(!btn) return;
-      const idx = Number(btn.dataset.index);
-      const list = load();
-      if(btn.dataset.action === 'edit'){
-        const s = list[idx];
-        Object.entries(inputs).forEach(([k,el]) => { el.value = (k==='sweetness') ? s[k] : s[k] ?? ''; });
-        editingIndex.value = String(idx);
-        window.scrollTo({top: document.getElementById('new').offsetTop - 80, behavior: 'smooth'});
-      } else if(btn.dataset.action === 'delete'){
-        list.splice(idx,1);
-        save(list);
-        render(list);
-      }
-    }
-
-    /* Export all shoppers as pretty-printed JSON */
-    function exportJSON(){
-      const data = JSON.stringify(load(), null, 2);
-      const blob = new Blob([data], {type:'application/json'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = 'shoppers.json';
-      document.body.appendChild(a); a.click(); a.remove();
-      URL.revokeObjectURL(url);
-    }
-
-    /* Wiring */
-    search.addEventListener('input', ()=>render(load()));
-    tableBody.addEventListener('click', handleTable);
-    form.addEventListener('submit', upsert);
-    resetBtn.addEventListener('click', clearForm);
-    exportBtn.addEventListener('click', exportJSON);
-    document.addEventListener('DOMContentLoaded', ()=>render(load()));
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
