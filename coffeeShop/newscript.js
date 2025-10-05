@@ -1,5 +1,4 @@
 
-/* Data bindings */
 const form = document.getElementById('shopperForm');
 const tableBody = document.querySelector('#shopperTable tbody');
 const search = document.getElementById('search');
@@ -18,10 +17,7 @@ address: document.getElementById('address'),
 city: document.getElementById('city'),
 state: document.getElementById('state'),
 zip: document.getElementById('zip'),
-favorite: document.getElementById('favorite'),
-loyalty: document.getElementById('loyalty'),
-perks: document.getElementById('perksSelect'),
-notes: document.getElementById('notes')
+favorite: document.getElementById('favorite')
 };
 
 /*Constants for states for scrolldown menu - LP */
@@ -42,4 +38,31 @@ states.forEach(stateCode => {
     selectState.appendChild(option);
 });
 
+/* The regex originally was not working and I could not fix it so I made is a separate js function - LP */
+function isValidNumber(phone) {
+    const phonePatter = /^[0-9+ ()-]{7,}$/;
+    return phonePatter.test(phone);
+}
 
+function handleFormSubmit(event){
+    event.preventDefault();
+
+    if(!isValidNumber(inputs.phone.value)) {
+        alert('Please enter a valid phone number. ');
+        inputs.phone.classList.add('is-invalid');
+        return;
+    }
+    inputs.phone.classList.remove('is-invalid');
+    const formData = {};
+    for (const key in inputs){
+        formData[key] = inputs[key].value.trim();
+    }
+    console.log(formData);
+
+    const jsonString = JSON.stringify(formData);
+    console.log(jsonString);
+}
+
+
+form.addEventListener('submit', function(event) {
+    handleFormSubmit(event);});

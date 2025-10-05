@@ -71,42 +71,38 @@
                 </div>
                 <div class="col-12">
                   <label for="phone" class="form-label">Phone</label>
-                  <input type="tel" class="form-control control-elegant" id="phone" name="phone" pattern="^[0-9\-+\s()]{7,}$" inputmode="tel" autocomplete="tel" placeholder="(555) 123-4567">
+                  <input type="tel" class="form-control control-elegant" id="phone" name="phone" required inputmode="tel" autocomplete="tel" placeholder="(555) 123-4567">
                   <div class="invalid-feedback">Enter a valid phone</div>
                 </div>
                 <div class="col-12">
                   <label for="address" class="form-label">Address</label>
-                  <input type="text" class="form-control control-elegant" id="address" name="address" autocomplete="street-address" placeholder="123 Roast St.">
+                  <input type="text" class="form-control control-elegant" id="address" name="address" required autocomplete="street-address" placeholder="123 Roast St.">
                 </div>
                 <div class="col-md-6">
                   <label for="city" class="form-label">City</label>
-                  <input type="text" class="form-control control-elegant" id="city" name="city" autocomplete="address-level2" placeholder="Beanville">
+                  <input type="text" class="form-control control-elegant" id="city" name="city" required autocomplete="address-level2" placeholder="Beanville">
                 </div>
                 <div class="col-md-3">
                   <label for="state" class="form-label">State</label>
-                  <select id="state" name="state" class="form-select control-elegant" autocomplete="address-level1">
+                  <select id="state" name="state" class="form-select control-elegant" required autocomplete="address-level1">
                     <option value="">Choose...</option>
                   </select>
                 </div>
                 <div class="col-md-3">
                   <label for="zip" class="form-label">ZIP</label>
-                  <input type="text" class="form-control control-elegant" id="zip" name="zip" pattern="^\d{5}$" inputmode="numeric" autocomplete="postal-code" placeholder="Zip Code">
+                  <input type="text" class="form-control control-elegant" id="zip" required name="zip" pattern="^\d{5}$" inputmode="numeric" autocomplete="postal-code" placeholder="Zip Code">
                   <div class="invalid-feedback">Enter a valid ZIP</div>
                 </div>
                 <div class="col-md-6">
                   <label for="favorite" class="form-label">Favorite drink</label>
-                  <select id="favorite" name="favorite" class="form-select control-elegant">
+                  <select id="favorite" name="favorite" required class="form-select control-elegant">
                     <option>Latte</option><option>Espresso</option><option>Cappuccino</option><option>Americano</option><option>Mocha</option><option>Cold Brew</option><option>Other</option>
                   </select>
-                </div>
-                <div class="col-md-6">
-                  <label for="loyalty" class="form-label">Loyalty ID</label>
-                  <input type="text" class="form-control control-elegant" id="loyalty" name="loyalty" placeholder="Enter Loyalty Card Number Here">
                 </div>
                 <!-- Unique id for select; `perksSection` is used for the section anchor below -->
                 <div class="col-md-6">
                   <label for="perksSelect" class="form-label">Perks</label>
-                  <select id="perksSelect" name="perks" class="form-select control-elegant">
+                  <select id="perksSelect" name="perks" required class="form-select control-elegant">
                     <option>Standard</option><option>Gold</option><option>Platinum</option>
                   </select>
                 </div>
@@ -163,6 +159,6 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-  <script src="script.js"></script>
+  <script src="newscript.js"></script>
 </body>
 </html>
