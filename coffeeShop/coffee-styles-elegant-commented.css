@@ -1,107 +1,59 @@
-/* Elegant theme: luxe hero, refined typography, soft-glass panels, and polished tables */
-*{box-sizing:border-box;}
-html,body{height:100%;}
-
 /* Typography & global background */
 body{
   font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
   color:#101114;
-  /* Layered subtle gradients + photo-friendly dark base */
+	
+/* Gradients */
   background:
-    radial-gradient(100% 60% at 10% 10%, rgba(255,255,255,0.05), rgba(255,255,255,0)),
-    radial-gradient(100% 60% at 90% 10%, rgba(255,255,255,0.04), rgba(255,255,255,0)),
     linear-gradient(135deg,#0e0f13,#121620 50%,#0e0f13);
 }
 
-/* Brand: small circular image + serif wordmark for a boutique feel */
-.logo{width:38px;height:38px;object-fit:cover;}
+/* Navbar */
 .nav-elegant{
   background:rgba(7,8,10,0.6);
-  -webkit-backdrop-filter:blur(10px);
   backdrop-filter:blur(10px);
-  border-bottom:1px solid rgba(255,255,255,0.08);
 }
-.brand-elegant span{font-family:"Playfair Display", serif;letter-spacing:.5px}
-.nav-links-elegant .nav-link{position:relative;padding:.5rem .75rem;border-radius:10px;color:#e8ebf2}
-.nav-links-elegant .nav-link:hover{background:rgba(255,255,255,0.08);color:#fff}
+.brand-elegant span{font-family:"Playfair Display", serif; letter-spacing:.5px}
+.nav-links-elegant .nav-link{position:relative; padding:.5rem .75rem; border-radius:10px; color:white}
 
-/* Hero: photo with soft color glows to lift text */
+/* Hero: banner photo */
 .hero-elegant{
-  min-height:60vh;
-  background-image:
-    radial-gradient(1200px 500px at 20% 10%, rgba(255,183,3,0.12), rgba(255,183,3,0)),
-    radial-gradient(900px 400px at 80% 15%, rgba(76,201,240,0.12), rgba(76,201,240,0)),
-    linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.55)),
-    url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1600&q=80&auto=format&fit=crop');
-  background-size:cover;
-  background-position:center;
-  display:flex;align-items:center;
-  text-shadow:0 2px 20px rgba(0,0,0,0.35);
+  min-height: 60vh;
+  background-image: url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1600&q=80&auto=format&fit=crop');
+  background-position: center;
+  display:flex;
+  align-items:center;
 }
 .hero-title{font-family:"Playfair Display", serif}
-.hero-sub{opacity:.9}
 
-/* CTAs */
+/* Buttons */
 .btn-amber-elegant{
-  color:#1a1a1a;
-  background-color:#ffcc66;
-  border-color:#ffcc66;
+  color: black;
+  background-color: orange;
   border-radius:14px;
   padding:.7rem 1.15rem;
-  font-weight:700;
-  box-shadow:0 8px 24px rgba(255,204,102,0.35);
-  transition:transform .15s ease, box-shadow .2s ease;
 }
 .btn-amber-elegant:hover{
-  color:#1a1a1a;
   background-color:#ffc14a;
-  border-color:#ffc14a;
-  transform:translateY(-1px);
-  box-shadow:0 10px 28px rgba(255,193,74,0.4);
 }
-.btn-outline-elegant{
-  color:#e9edf7;background:transparent;border:1px solid rgba(233,237,247,0.4);border-radius:14px;padding:.7rem 1.15rem;
-}
-.btn-outline-elegant:hover{background:rgba(233,237,247,0.08);color:#fff}
 
 /* Panels & inputs */
 .panel-elegant{
   background:rgba(255,255,255,0.78);
-  -webkit-backdrop-filter:blur(12px);
-  backdrop-filter:blur(12px);
-  border:1px solid rgba(0,0,0,0.06);
   border-radius:20px;
 }
 .section-title{font-family:"Playfair Display", serif}
-.control-elegant{border-radius:12px;border:1px solid rgba(0,0,0,0.08)}
-.control-elegant:focus{border-color:#ffcc66;box-shadow:0 0 0 .25rem rgba(255,204,102,0.25)}
-.control-range::-webkit-slider-thumb{background-color:#ffcc66}
-
-/* Shopper table */
-.table-shell{border:1px solid rgba(0,0,0,0.06);border-radius:16px;background:#fff;box-shadow:0 14px 38px rgba(0,0,0,0.12)}
-.table-elegant thead tr{background:linear-gradient(90deg,#0f1014,#161a22);color:#fff}
-.table-elegant thead th{border:0;padding:14px 16px;letter-spacing:.02em}
-.table-elegant tbody td{padding:14px 16px;vertical-align:middle}
-.table-elegant tbody tr:nth-child(even){background:#fafbfe}
+.control-elegant{border-radius:12px;}
 
 /* Menu teaser cards */
 .menu-card-elegant{position:relative;border-radius:18px;overflow:hidden;box-shadow:0 16px 40px rgba(0,0,0,0.18);transition:transform .35s ease, box-shadow .35s ease}
-.menu-card-elegant:hover{transform:translateY(-4px);box-shadow:0 24px 60px rgba(0,0,0,0.25)}
-.menu-card-elegant img{width:100%;height:320px;object-fit:cover;display:block;transform:scale(1.02);transition:transform .6s ease}
-.menu-card-elegant:hover img{transform:scale(1.06)}
-.menu-overlay-elegant{position:absolute;left:0;right:0;bottom:0;padding:1.1rem 1.25rem;background:linear-gradient(180deg,transparent,rgba(0,0,0,0.76));color:#fff}
-.menu-title{font-family:"Playfair Display", serif;margin:0 0 .15rem 0}
+.menu-card-elegant img{width:100%;height:320px;object-fit:cover;display:block;}
 .menu-sub{margin:0;opacity:.9}
 
 /* Perks banner */
-.perk-banner-elegant{background:linear-gradient(135deg, rgba(255,204,102,0.28), rgba(255,255,255,0.2));-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.22);border-radius:18px;padding:1rem 1.25rem;color:#0f1218}
+.perk-banner-elegant{background:linear-gradient(135deg, rgba(255,204,102,0.28), rgba(255,255,255,0.2));border-radius:18px;padding:1rem 1.25rem;color:black}
 .perk-title{font-family:"Playfair Display", serif;margin:0 0 .25rem 0}
-.perk-sub{margin:0;opacity:.85}
 
 /* Footer */
-.footer-elegant{color:#aeb4c2}
+.footer-elegant{color:white}
 
-/* Mobile tweaks */
-@media (max-width: 576px){
-  .hero-elegant{min-height:52vh}
-}
