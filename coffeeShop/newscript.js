@@ -44,15 +44,45 @@ function isValidNumber(phone) {
     return phonePatter.test(phone);
 }
 
+function isValidEmail(email) {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+}
+
+function isValidAddress(address) {
+    const addressPattern = /^[0-9]+ +[a-zA-Z0-9\s,'-]+$/;
+    return addressPattern.test(address);
+}
+
+
+
 function handleFormSubmit(event){
     event.preventDefault();
+    if (!inputs.firstName.value || !inputs.lastName.value || !inputs.city.value || !inputs.state.value || !inputs.zip.value) {
+        alert('Please fill in all required fields.');
+        return;}
 
-    if(!isValidNumber(inputs.phone.value)) {
+    else if(!isValidNumber(inputs.phone.value)) {
         alert('Please enter a valid phone number. ');
         inputs.phone.classList.add('is-invalid');
         return;
     }
+    else if (!isValidEmail(inputs.email.value)) {
+        alert('Please enter a valid email address.');
+        inputs.email.classList.add('is-invalid');
+        return;
+    }
+    else if (!isValidAddress(inputs.address.value)) {
+        alert('Please enter a valid address. ');
+        inputs.address.classList.add('is-invalid');
+        return;
+    }
+    
+
     inputs.phone.classList.remove('is-invalid');
+    inputs.email.classList.remove('is-invalid');
+    inputs.address.classList.remove('is-invalid');
+
     const formData = {};
     for (const key in inputs){
         formData[key] = inputs[key].value.trim();
