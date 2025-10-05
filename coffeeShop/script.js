@@ -7,6 +7,8 @@ const yearEl = document.getElementById('year');
 const resetBtn = document.getElementById('resetBtn');
 const exportBtn = document.getElementById('exportBtn');
 const editingIndex = document.getElementById('editingIndex');
+
+
 const inputs = {
 firstName: document.getElementById('firstName'),
 lastName: document.getElementById('lastName'),
@@ -47,7 +49,9 @@ const storageKey = 'bb_shoppers_v1';
 const load = () => { try { return JSON.parse(localStorage.getItem(storageKey)) || []; } catch { return []; } };
 const save = list => localStorage.setItem(storageKey, JSON.stringify(list));
 const toObj = () => Object.fromEntries(Object.entries(inputs).map(([k,el])=>[k, el.type==='range'? Number(el.value): el.value.trim()]));
-const clearForm = () => { form.reset(); editingIndex.value=''; form.classList.remove('was-validated'); };
+const clearForm = () => { 
+    console.log('Reset button clicked');
+    form.reset(); editingIndex.value=''; form.classList.remove('was-validated'); };
 const fullName = s => `${s.firstName} ${s.lastName}`.trim();
 
 /* Render table rows (filtered by search) */

@@ -24,11 +24,10 @@
       </button>
       <nav id="nav" class="collapse navbar-collapse">
         <ul class="navbar-nav ms-auto align-items-lg-center nav-links-elegant">
-          <li class="nav-item"><a class="nav-link active" href="#">Shopper Management</a></li>
-          <li class="nav-item"><a class="nav-link" href="#menu">Menu</a></li>
+          <li class="nav-item"><a class="nav-link active" href="">Coffee Club Sign Up</a></li>
+          <li class="nav-item"><a class="nav-link" href="">Menu</a></li>
           <!-- Use unique id to avoid collisions with form field ids -->
-          <li class="nav-item"><a class="nav-link" href="#perksSection">Perks</a></li>
-          <li class="nav-item ms-lg-3"><a class="btn btn-amber-elegant" href="#new">New Shopper</a></li>
+          <li class="nav-item"><a class="nav-link" href="">Perks</a></li>
         </ul>
       </nav>
     </div>
@@ -38,13 +37,13 @@
   <section class="hero-elegant d-flex align-items-center text-center text-white">
     <div class="container">
       <h1 class="display-5 fw-bold mb-2 hero-title">XYZ Coffee Shop Loyalty Club.</h1>
-      <p class="lead mb-4 hero-sub">Become a member today!.</p>
+      <p class="lead mb-4 hero-sub">Become a member today!</p>
     </div>
   </section>
 
   <!-- Main content: two-column layout (form + list) -->
   <main class="container py-5">
-    <div class="row g-4">
+    <div class="row g-4 justify-content-center">
       <!-- Left column: shopper form (create/update) -->
       <div class="col-12 col-lg-5">
         <div class="card shadow-lg border-0 panel-elegant" id="new">
@@ -97,7 +96,7 @@
                 <div class="col-md-6">
                   <label for="favorite" class="form-label">Favorite drink</label>
                   <select id="favorite" name="favorite" class="form-select control-elegant">
-                    <option>Latte</option><option>Espresso</option><option>Cappuccino</option><option>Americano</option><option>Mocha</option><option>Cold Brew</option>
+                    <option>Latte</option><option>Espresso</option><option>Cappuccino</option><option>Americano</option><option>Mocha</option><option>Cold Brew</option><option>Other</option>
                   </select>
                 </div>
                 <div class="col-md-6">
@@ -113,7 +112,6 @@
                 </div>
                 <div class="col-12 d-grid d-md-flex gap-2 mt-2">
                   <button class="btn btn-amber-elegant fw-semibold" type="submit">Save Shopper</button>
-                  <button class="btn btn-outline-elegant" type="button" id="resetBtn">Reset</button>
                 </div>
               </div>
             </form>
@@ -159,12 +157,11 @@
     </div>
   </main>
 
-  <!-- Footer with live year -->
+
   <footer class="py-5 text-center small footer-elegant">
     <span id="year"></span> IST256 Group Project 
   </footer>
 
-  <!-- JS: Bootstrap bundle + page logic -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
   <script src="script.js"></script>
 </body>
