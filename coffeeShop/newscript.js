@@ -17,7 +17,7 @@ address: document.getElementById('address'),
 city: document.getElementById('city'),
 state: document.getElementById('state'),
 zip: document.getElementById('zip'),
-favorite: document.getElementById('favorite')
+age: document.getElementById('age')
 };
 
 /*Constants for states for scrolldown menu - LP */
@@ -58,7 +58,7 @@ function isValidAddress(address) {
 
 function handleFormSubmit(event){
     event.preventDefault();
-    if (!inputs.firstName.value || !inputs.lastName.value || !inputs.city.value || !inputs.state.value || !inputs.zip.value) {
+    if (!inputs.firstName.value || !inputs.lastName.value || !inputs.city.value || !inputs.state.value || !inputs.zip.value || !inputs.age.value) {
         alert('Please fill in all required fields.');
         return;}
 

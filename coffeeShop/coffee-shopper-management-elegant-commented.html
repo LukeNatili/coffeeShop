@@ -71,7 +71,7 @@
                 </div>
                 <div class="col-12">
                   <label for="phone" class="form-label">Phone</label>
-                  <input type="tel" class="form-control control-elegant" id="phone" name="phone" required inputmode="tel" autocomplete="tel" placeholder="(555) 123-4567">
+                  <input type="tel" class="form-control control-elegant" id="phone" name="phone" required inputmode="tel" autocomplete="tel" placeholder="(555) 123-1337">
                   <div class="invalid-feedback">Enter a valid phone</div>
                 </div>
                 <div class="col-12">
@@ -94,10 +94,8 @@
                   <div class="invalid-feedback">Enter a valid ZIP</div>
                 </div>
                 <div class="col-md-6">
-                  <label for="favorite" class="form-label">Favorite drink</label>
-                  <select id="favorite" name="favorite" required class="form-select control-elegant">
-                    <option>Latte</option><option>Espresso</option><option>Cappuccino</option><option>Americano</option><option>Mocha</option><option>Cold Brew</option><option>Other</option>
-                  </select>
+                  <label for="age" class="form-label">Age</label>
+                  <input type="text" class="form-control control-elegant" id="age" name="age" required pattern="^\d{1,3}$" inputmode="numeric" placeholder="100">
                 </div>
                 <!-- Unique id for select; `perksSection` is used for the section anchor below -->
                 <div class="col-md-6">
