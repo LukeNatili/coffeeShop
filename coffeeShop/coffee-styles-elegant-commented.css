@@ -32,6 +32,7 @@ body{
   background-color: orange;
   border-radius:14px;
   padding:.7rem 1.15rem;
+  margin-bottom: 5px;
 }
 .btn-amber-elegant:hover{
   background-color:#ffc14a;
@@ -57,3 +58,20 @@ body{
 /* Footer */
 .footer-elegant{color:white}
 
+/* CSS for menu page */
+
+.menu-card-item{
+	width: 350px;
+	height: 385px;
+	position:relative;
+	border-radius:18px;
+}
+
+.menu-card-item img{
+	width:200px;
+	height:200px;
+	border-radius: 18px;
+	object-fit:cover;
+	display:block;
+	margin-bottom: 5px;
+}
