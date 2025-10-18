@@ -59,6 +59,10 @@ body{
 .footer-elegant{color:white}
 
 /* CSS for menu page */
+.menu-card-item h2 {
+	font-size: 20px;
+	font-family: Gotham, "Helvetica Neue", Helvetica, Arial, "sans-serif";
+}
 
 .menu-card-item{
 	width: 350px;
