@@ -64,11 +64,16 @@ body{
 	font-family: Gotham, "Helvetica Neue", Helvetica, Arial, "sans-serif";
 }
 
-.menu-card-item{
+.menu-card-item p4{
 	width: 350px;
 	height: 385px;
 	position:relative;
 	border-radius:18px;
+}
+
+.div p{
+	justify-content: center;
+	
 }
 
 .menu-card-item img{

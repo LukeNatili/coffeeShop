@@ -154,6 +154,13 @@ if (form) {
     $totalEl.text( '$' + t.total.toFixed(2));
     $cartCountEl.text(t.count);
   }
+
+  function loadCartClickHandler() {
+    $('#loadCart').on('click', function() {
+      loadCart();
+      updateUI();
+    })
+  }
   function cartClickHandler() {
     $('#cartList').on('click', 'button[data-action]', function() {
       var action = $(this).data('action');
@@ -210,7 +217,6 @@ if (form) {
   // Clear cart button - clears out cart -LP
   function clearCart() {
     cart = [];
-    saveCart();
     updateUI();
   }
 
@@ -252,6 +258,7 @@ if (form) {
   wireButtons();
   updateUI();
   cartClickHandler();
+  loadCartClickHandler();
 })();
 
 
