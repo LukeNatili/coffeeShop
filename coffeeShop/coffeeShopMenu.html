@@ -26,19 +26,15 @@
         <ul class="navbar-nav ms-auto align-items-lg-center nav-links-elegant">
           <li class="nav-item"><a class="nav-link active" href="coffee-shopper-management-elegant-commented.html">Coffee Club Sign Up</a></li>
           <li class="nav-item"><a class="nav-link" href="">Menu</a></li>
-			<!-- Adds the cart function  -->
-			<li class="nav-item">
+			
+	<li class="nav-item">
   <a class="nav-link position-relative" href="#" data-bs-toggle="offcanvas" data-bs-target="#cartDrawer">
     Cart
     <span id="cartCount" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark">0</span>
   </a>
 </li>
-      
-			
           <!-- Use unique id to avoid collisions with form field ids -->
           <li class="nav-item"><a class="nav-link" href="">Perks</a></li>
-			<div id="cart"><li class="nav-item"><a class="nav-link"><i class="fa-solid fa-cart-shopping"></i> Cart</a></li></div>
-		  
         </ul>
       </nav>
     </div>
@@ -48,12 +44,12 @@
 
   <!-- Menu Content -->
   <main class="container py-5">
-    <div class="row g-4 " id="menu-items"> <!-- justify-content-between -->
+    <div class="row g-4 "> <!-- justify-content-between -->
 		
       <div class="col-12 col-lg-3">
         <div class="card shadow-lg border-0 panel-elegant" id="cappucino">
           <div class="menu-card-item p-4">
-			  <h2>Cappucino - $9.99</h2>
+			  <h2>Cappucino - 9.99</h2>
 			<img src="images/cappucino.jfif" alt="cappucinoPic">
 			  <div class="menu-card-button">
 			  <button class="btn btn-amber-elegant fw-semibold" id="favoriteCappucino">Add to favorites</button>
@@ -68,7 +64,7 @@
       <div class="col-12 col-lg-3">
         <div class="card shadow-lg border-0 panel-elegant" id="latte">
           <div class="menu-card-item p-4">
-			  <h2>Latte - $9.99</h2>
+			  <h2>Latte - 9.99</h2>
 			  <img src="images/icedLatte.jfif" alt="lattePic">
 			  <div class="menu-card-button">
 			  <button class="btn btn-amber-elegant fw-semibold" id="favoriteLatte">Add to favorites</button>
@@ -83,7 +79,7 @@
       <div class="col-12 col-lg-3">
         <div class="card shadow-lg border-0 panel-elegant" id="espresso">
           <div class="menu-card-item p-4">
-			  <h2>Espresso - $6.99</h2>
+			  <h2>Espresso - 6.99</h2>
 			  <img src="images/espresso.jfif" alt="espressoPic">
 			  <div class="menu-card-button">
 			  <button class="btn btn-amber-elegant fw-semibold" id="favoriteEspresso">Add to favorites</button>
@@ -98,7 +94,7 @@
       <div class="col-12 col-lg-3">
         <div class="card shadow-lg border-0 panel-elegant" id="affogato">
           <div class="menu-card-item p-4">
-			  <h2>Affogato - $11.99</h2>
+			  <h2>Affogato - 11.99</h2>
 				<img src="images/affogato.jfif" alt="affogatoPic">
 			  <div class="menu-card-button">
 			  <button class="btn btn-amber-elegant fw-semibold" id="favoriteAffogato">Add to favorites</button>
@@ -113,7 +109,7 @@
       <div class="col-12 col-lg-3">
         <div class="card shadow-lg border-0 panel-elegant" id="americano">
           <div class="menu-card-item p-4">
-			  <h2>Americano - $6.99</h2>
+			  <h2>Americano - 6.99</h2>
 				<img src="images/americano.jfif" alt="americanoPic">
 			  <div class="menu-card-button">
 			  <button class="btn btn-amber-elegant fw-semibold" id="favoriteAmericano">Add to favorites</button>
@@ -128,7 +124,7 @@
       <div class="col-12 col-lg-3">
         <div class="card shadow-lg border-0 panel-elegant" id="mocha">
           <div class="menu-card-item p-4">
-			  <h2>Mocha - $11.99</h2>
+			  <h2>Mocha - 11.99</h2>
 				<img src="images/mocha.jfif" alt="mochaPic">
 			  <div class="menu-card-button">
 			  <button class="btn btn-amber-elegant fw-semibold" id="favoriteMocha">Add to favorites</button>
@@ -143,7 +139,7 @@
       <div class="col-12 col-lg-3">
         <div class="card shadow-lg border-0 panel-elegant" id="irish">
           <div class="menu-card-item p-4">
-			  <h2>Irish - $13.99</h2>
+			  <h2>Irish - 13.99</h2>
 				<img src="images/irish.jfif" alt="irishPic">
 			  <div class="menu-card-button">
 			  <button class="btn btn-amber-elegant fw-semibold" id="favoriteIrish">Add to favorites</button>
@@ -158,7 +154,7 @@
       <div class="col-12 col-lg-3">
         <div class="card shadow-lg border-0 panel-elegant" id="macchiato">
           <div class="menu-card-item p-4">
-			  <h2>Macchiato - $8.99</h2>
+			  <h2>Macchiato - 8.99</h2>
 				<img src="images/macchiato.jfif" alt="macchiatoPic">
 			  <div class="menu-card-button">
 			  <button class="btn btn-amber-elegant fw-semibold" id="favoriteMacchiato">Add to favorites</button>
@@ -173,7 +169,7 @@
       <div class="col-12 col-lg-3">
         <div class="card shadow-lg border-0 panel-elegant" id="black">
           <div class="menu-card-item p-4">
-			  <h2>Black - $4.99</h2>
+			  <h2>Black - 4.99</h2>
 				<img src="images/black.jfif" alt="blackPic">
 			  <div class="menu-card-button">
 			  <button class="btn btn-amber-elegant fw-semibold" id="favoriteBlack">Add to favorites</button>
@@ -188,7 +184,7 @@
       <div class="col-12 col-lg-3">
         <div class="card shadow-lg border-0 panel-elegant" id="decaf">
           <div class="menu-card-item p-4">
-			  <h2>Decaf - $4.99</h2>
+			  <h2>Decaf - 4.99</h2>
 				<img src="images/decaf.jfif" alt="decafPic">
 			  <div class="menu-card-button">
 			  <button class="btn btn-amber-elegant fw-semibold" id="favoriteDecaf">Add to favorites</button>
@@ -246,6 +242,25 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
   <script src="newscript.js"></script>
-  <script src="https://kit.fontawesome.com/3419ad423b.js" crossorigin="anonymous"></script>
+	<!-- NEW: Offcanvas cart drawer (simple cart list + total) -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="cartDrawer" aria-labelledby="cartDrawerLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="cartDrawerLabel">Your Cart</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <ul id="cartList" class="list-group mb-3"><!-- items render here --></ul>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <strong>Total:</strong>
+      <span id="cartTotal">$0.00</span>
+    </div>
+    <div class="d-grid gap-2">
+      <button id="checkoutBtn" class="btn btn-amber-elegant">Checkout</button>
+      <button id="clearCartBtn" class="btn btn-outline-dark">Clear Cart</button>
+    </div>
+  </div>
+</div>
+
+
 </body>
 </html>
