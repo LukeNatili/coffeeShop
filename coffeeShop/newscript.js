@@ -1,3 +1,4 @@
+$(document).ready(function() {
 var form = document.getElementById('shopperForm');
 var tableBody = document.querySelector('#shopperTable tbody');
 var search = document.getElementById('search');
@@ -123,45 +124,57 @@ if (form) {
     return { total: total, count: count };
   }
 
-  // NEW: Render cart list and badge
+  // Modified existing to implement jquery -LP
   function renderCart() {
-    var listEl = document.getElementById('cartList');
-    var totalEl = document.getElementById('cartTotal');
-    if (!listEl || !totalEl) return;
+    var $listEl = $('#cartList');
+    var $totalEl = $('#cartTotal');
+    var $cartCountEl = $('#cartCount');
+    if (!$listEl.length || !$totalEl.length || !$cartCountEl.length) return;
 
-    listEl.innerHTML = '';
+    $listEl.empty();
 
     for (var i = 0; i < cart.length; i++) {
       (function (item, index) {
-        var li = document.createElement('li');
-        li.className = 'list-group-item d-flex justify-content-between align-items-center';
-        li.innerHTML = '<div>' +
-          item.name + ' x ' + item.qty + '<div class="small text-muted">$' + item.price.toFixed(2) + ' each</div></div>' +
-          '<div class="btn-group">' +
-            '<button class="btn btn-sm btn-outline-secondary" data-action="dec">-</button>' +
-            '<button class="btn btn-sm btn-outline-secondary" data-action="inc">+</button>' +
-            '<button class="btn btn-sm btn-outline-danger" data-action="remove">&times;</button>' +
-          '</div>';
-
-        li.addEventListener('click', function (e) {
-          var action = e.target && e.target.getAttribute('data-action');
-          if (!action) return;
-          if (action === 'inc') cart[index].qty += 1;
-          if (action === 'dec') cart[index].qty = Math.max(1, cart[index].qty - 1);
-          if (action === 'remove') cart.splice(index, 1);
-          saveCart();
-          updateUI();
-        });
-
-        listEl.appendChild(li);
+        var $li = $('<li>')
+                .addClass('list-group-item d-flex justify-content-between align-items-center')
+                .attr('data-index', index) 
+                .html('<div>' +
+                    item.name + ' x ' + item.qty + '<div class="small text-muted">$' + item.price.toFixed(2) + ' each</div></div>' +
+                    '<div class="btn-group">' +
+                        '<button class="btn btn-sm btn-outline-secondary" data-action="dec">-</button>' +
+                        '<button class="btn btn-sm btn-outline-secondary" data-action="inc">+</button>' +
+                        '<button class="btn btn-sm btn-outline-danger" data-action="remove">&times;</button>' +
+                    '</div>');
+            
+            $listEl.append($li);
       })(cart[i], i);
     }
 
     var t = cartTotals();
-    totalEl.textContent = '$' + t.total.toFixed(2);
-    cartCountEl.textContent = t.count;
+    $totalEl.text( '$' + t.total.toFixed(2));
+    $cartCountEl.text(t.count);
   }
+  function cartClickHandler() {
+    $('#cartList').on('click', 'button[data-action]', function() {
+      var action = $(this).data('action');
+      var $li = $(this).closest('li');
+      var index = parseInt($li.data('index'));
 
+      if(isNaN(index) || index < 0 || index >= cart.length) return;
+
+      if(action=== 'inc') {
+        cart[index].qty += 1;
+      }
+      else if(action === 'dec') {
+        cart[index].qty -= Math.max(1, cart[index].qty - 1);
+      }
+      else if(action === 'remove') {
+        cart.splice(index, 1);
+      }
+      saveCart();
+      updateUI();
+    })
+  }
   // NEW: Add item to cart (by name/price); merge quantities for same item
   function addToCart(name, price) {
     var found = -1;
@@ -194,7 +207,7 @@ if (form) {
     updateUI();
   }
 
-  // NEW: Clear cart button
+  // Clear cart button - clears out cart -LP
   function clearCart() {
     cart = [];
     saveCart();
@@ -206,7 +219,7 @@ if (form) {
     renderCart();
   }
 
-  // NEW: Map buttons to products (ids already exist in coffeeShopMenu.html)
+  // Modified existing javascript to use jquery -LP
   function wireButtons() {
     var items = [
       { id: 'cartCappucino', name: 'Cappucino', price: 9.99 },
@@ -221,26 +234,25 @@ if (form) {
       { id: 'cartDecaf', name: 'Decaf', price: 4.99 }
     ];
 
-    for (var i = 0; i < items.length; i++) {
-      (function (cfg) {
-        var btn = document.getElementById(cfg.id);
-        if (btn) {
-          btn.addEventListener('click', function () {
+    $.each(items, function(i, cfg) {
+        
+        $('#' + cfg.id).on('click', function() {
             addToCart(cfg.name, cfg.price);
-          });
-        }
-      })(items[i]);
-    }
+        });
+    });
 
-    var checkoutBtn = document.getElementById('checkoutBtn');
-    if (checkoutBtn) checkoutBtn.addEventListener('click', checkout);
+    
+    $('#checkoutBtn').on('click', checkout);
 
-    var clearBtn = document.getElementById('clearCartBtn');
-    if (clearBtn) clearBtn.addEventListener('click', clearCart);
+    $('#clearCartBtn').on('click', clearCart);
   }
 
   // NEW: Initialize cart on page load
   loadCart();
   wireButtons();
   updateUI();
+  cartClickHandler();
 })();
+
+
+});
