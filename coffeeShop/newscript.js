@@ -302,7 +302,7 @@ function presentProducts() {
 
   }
 
-  function formSubmit() {
+function formSubmit() {
       const id = $('#product-id').val();
       const name = $('#product-name').val();
       const price = parseFloat($('#product-price').val());
@@ -337,6 +337,19 @@ function presentProducts() {
       return true;
   }
 
+function deleteClick(buttonDelete) {
+	var $row = $(buttonDelete).closest('tr');
+	var productID = $row.data('id');
+	
+	if(confirm(`Are you sure you want to delete product with ID ${productID}?`)) {
+		delete products[productID];
+		saveProducts();
+		presentProducts();
+	}
+	
+	
+}
+
   presentProducts();
   //Submitting the form w/add
   $('#new-product-form').on('submit', function(e) {
@@ -349,6 +362,9 @@ function presentProducts() {
     }
   }
 );
+	$('#products-table').on('click', '.delete-btn', function() {
+		deleteClick(this);
+	})
 
 
 });

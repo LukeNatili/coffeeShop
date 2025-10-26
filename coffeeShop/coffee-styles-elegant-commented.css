@@ -189,3 +189,13 @@ body{
 	padding: 10px 15px;
 	border-bottom: 1px solid #dee2e6;
 }
+
+.edit-btn, .delete-btn {
+	padding: 5px 10px;
+	margin-left: 5px;
+	border: 1px solid transparent;
+	cursor: pointer;
+	border-radius: 3px;
+	color: #2A1200;
+	border-color:#FFDC89;
+}
