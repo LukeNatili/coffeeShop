@@ -1,27 +1,43 @@
-function addProduct() {
-	const newRow = document.createElement('tr');
-	const cell1 = document.createElement('td');
-	cell1.textContent = document.getElementById("product-id").value;
-	const cell2 = document.createElement('td');
-	cell2.textContent = document.getElementById("product-name").value;
-	const cell3 = document.createElement('td');
-	cell3.textContent = document.getElementById("product-price").value;
-	const cell4 = document.createElement('td');
-	cell4.textContent = document.getElementById("product-description").value;
-	const cell5 = document.createElement('td');
-	cell5.textContent = document.getElementById("product-category").value;
-	const cell6 = document.createElement('td');
-	cell6.textContent = document.getElementById("product-size").value;
-	const cell7 = document.createElement('btn');
-	cell7.textContent = "Delete";
+window.onload = function loadXML() {
+	const xhttp = new XMLHttpRequest();
+	xhttp.onload = function() {loadProducts(this);};
+	xhttp.open('GET', 'products.xml');
+	xhttp.send();
+
+}
+function loadProducts(xml) {
+	const xmlDoc = xml.responseXML;
+	const x = xmlDoc.getElementsByTagName('PRODUCT');
 	
-	newRow.appendChild(cell1);
-	newRow.appendChild(cell2);
-	newRow.appendChild(cell3);
-	newRow.appendChild(cell4);
-	newRow.appendChild(cell5);
-	newRow.appendChild(cell6);
-	newRow.appendChild(cell7);
-	
-	document.getElementById("product-list").appendChild(newRow);
+	for (let i = 0; i < x.length; i++) {
+		let div1 = document.createElement('div');
+		div1.setAttribute('class', 'col-12 col-lg-3');
+		
+		let div2 = document.createElement('div');
+		div2.setAttribute('class', 'card shadow-lg border-0 panel-elegant');
+		div2.setAttribute('id', x[i].getElementsByTagName('NAME')[0].childNodes[0].nodeValue.toLowerCase);
+		
+		let div3 = document.createElement('div');
+		div3.setAttribute('class', 'menu-card-item p-4');
+		
+		let header = document.createElement('h2');
+		header.innerHTML = x[i].getElementsByTagName('NAME')[0].childNodes.nodeValue + ' - ' + x[i].getElementsByTagName('Price')[0].childNodes[0].nodeValue;
+		
+		let div4 = document.createElement('div');
+		div4.setAttribute('class', 'menu-card-button');
+		
+		let btn = document.createElement('button');
+		btn.setAttribute('class', 'btn btn-amber-elegant fw-semibold');
+		btn.setAttribute('id', 'cart' + x[i].getElementsByTagName('NAME')[0].childNodes.nodeValue);
+		btn.innerHTML = 'Add to cart';
+		
+		div1.appendChild(div2);
+		div2.appendChild(div3);
+		div3.appendChild(header);
+		div3.appendChild(div4);
+		div4.appendChild(btn);
+		
+		let targetDiv = document.getElementById('productContainer');
+		targetDiv.appendChild(div1);
+	}
 }
