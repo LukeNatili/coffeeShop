@@ -7,7 +7,13 @@ body{
   background:
     linear-gradient(135deg,#0e0f13,#121620 50%,#0e0f13);
 }
-
+/* Search bar implementation - LP */
+.input-group-text {
+	border-radius: 18px;
+}
+#search-bar {
+	border-right: 18px;
+}
 /* Navbar */
 .nav-elegant{
   background:rgba(7,8,10,0.6);

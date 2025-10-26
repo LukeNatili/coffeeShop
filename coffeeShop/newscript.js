@@ -378,6 +378,27 @@ function deleteClick(buttonDelete) {
 	$('#products-table').on('click', '.delete-btn', function() {
 		deleteClick(this);
 	})
+	
+//Search bar code
+$('#menu-search-input').on('keyup', function(){	
+const search = $(this).val().toLowerCase();
+	
+$('.col-12.col-lg-3').each(function() {
+	const $cardContainer = $(this);
+		
+	const item = $cardContainer.find('h2').text().toLowerCase().trim();
+		
+	if (item.includes(search)) {
+		$cardContainer.show();
+		console.log("Search attempt found")
+	}
+	else {
+		$cardContainer.hide();
+			
+			
+		}
+	});
+});
 
 
 });
