@@ -261,5 +261,93 @@ if (form) {
   loadCartClickHandler();
 })();
 
+//Javascript for product management page
+
+let products = JSON.parse(localStorage.getItem('products')) || {}; //Load saved products or create new products list
+
+function saveProducts() {
+  localStorage.setItem('products', JSON.stringify(products));
+}
+
+function presentProducts() {
+  const $list = $('#product-list');
+  $list.empty();
+  console.log('Entering render Produts Fucntion');
+
+  const productsArray = Object.entries(products);
+
+  if (productsArray.length === 0) {
+    console.log("No products to render");
+    $list.append('<tr><td colspan="6">No products added yet. </td></tr>');
+    return;
+    }
+  //Creates the rows in the table using items from the products either created or loaded in. 
+  productsArray.forEach(([id, product]) => {
+    const $row = `
+      <tr data-id="${id}">
+        <td>${id}</td>
+        <td>${product.name}</td>
+        <td>${product.price.toFixed(2)}</td>
+        <td>${product.category}</td>
+        <td>${product.size}</td>
+        <td>
+          <button class="edit-btn">Edit</button>
+          <button class="delete-btn">Delete</button>
+        </td>
+      </tr>`
+  $list.append($row);
+  console.log("Appended to lsit with ID: " + product.id);    
+  });
+
+  }
+
+  function formSubmit() {
+      const id = $('#product-id').val();
+      const name = $('#product-name').val();
+      const price = parseFloat($('#product-price').val());
+      const desc = $('#product-description').val();
+      const category = $('#product-category').val();
+      const size = parseInt($('#product-size').val());
+
+      console.log("ID:", id, "Name:", name, "Price", price, "Desc", desc, "Category", category, "size", size);
+
+
+      if(!id || !name || isNaN(price) || price <=0  || !desc || !category || isNaN(size) || size <= 0) {
+        alert("Please fill in all fields. ");
+        return false;
+
+      }
+
+      if(id in products) {
+        alert(`Product with ID: ${id} already exists. Please modify with Edit or Delete. `);
+        return false;
+      }
+
+      const newProduct = {
+        name: name,
+        price: price,
+        description: desc,
+        category: category,
+        size: size
+
+      }
+      products[id] = newProduct;
+      console.log("Added product successfully");
+      return true;
+  }
+
+  presentProducts();
+  //Submitting the form w/add
+  $('#new-product-form').on('submit', function(e) {
+    e.preventDefault();
+
+    if(formSubmit()) {
+      saveProducts();
+      presentProducts();
+      this.reset();
+    }
+  }
+);
+
 
 });
