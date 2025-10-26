@@ -262,6 +262,20 @@ if (form) {
 })();
 
 //Javascript for product management page
+// adding existing items to the product management page -ln
+var items = [
+{ id: 'cartCappucino', name: 'Cappucino', price: 9.99, category: "Coffee", size: 12},
+{ id: 'cartLatte', name: 'Latte', price: 9.99, category: "Coffee", size: 12 },
+{ id: 'cartEspresso', name: 'Espresso', price: 6.99, category: "Coffee", size: 4 },
+{ id: 'cartAffogato', name: 'Affogato', price: 11.99, category: "Coffee", size: 6 },
+{ id: 'cartAmericano', name: 'Americano', price: 6.99, category: "Coffee", size: 12 },
+{ id: 'cartMocha', name: 'Mocha', price: 11.99, category: "Coffee", size: 10 },
+{ id: 'cartIrish', name: 'Irish', price: 13.99, category: "Coffee", size: 10 },
+{ id: 'cartMacchiato', name: 'Macchiato', price: 8.99, category: "Coffee", size: 10 },
+{ id: 'cartBlack', name: 'Black', price: 4.99, category: "Coffee", size: 12 },
+{ id: 'cartDecaf', name: 'Decaf', price: 4.99, category: "Coffee", size: 12 }
+];
+localStorage.setItem('products', JSON.stringify(items)); 
 
 let products = JSON.parse(localStorage.getItem('products')) || {}; //Load saved products or create new products list
 
@@ -288,7 +302,6 @@ function presentProducts() {
         <td>${id}</td>
         <td>${product.name}</td>
         <td>${product.price.toFixed(2)}</td>
-		<td>${product.description}</td>
         <td>${product.category}</td>
         <td>${product.size}</td>
         <td>
