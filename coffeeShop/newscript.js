@@ -288,11 +288,12 @@ function presentProducts() {
         <td>${id}</td>
         <td>${product.name}</td>
         <td>${product.price.toFixed(2)}</td>
+		<td>${product.description}</td>
         <td>${product.category}</td>
         <td>${product.size}</td>
         <td>
-          <button class="edit-btn">Edit</button>
-          <button class="delete-btn">Delete</button>
+          <button class="btn btn-amber-elegant fw-semibold edit-btn">Edit</button>
+          <button class="btn btn-amber-elegant fw-semibold delete-btn">Delete</button>
         </td>
       </tr>`
   $list.append($row);

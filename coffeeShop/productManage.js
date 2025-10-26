@@ -24,5 +24,4 @@ function addProduct() {
 	newRow.appendChild(cell7);
 	
 	document.getElementById("product-list").appendChild(newRow);
-	console.log("all done")
 }
