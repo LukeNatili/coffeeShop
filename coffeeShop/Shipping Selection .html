@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shipping Selection • XYZ Coffee</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+
+  
+  <link rel="stylesheet" href="coffee-styles-elegant-commented.css">
+
+  <!-- Page helpers -->
+  <link rel="stylesheet" href="Shipping Selection .css">
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="navbar navbar-expand-lg navbar-dark sticky-top nav-elegant">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center brand-elegant" href="coffeeShopMenu.html">
+        <span>XYZ Coffee</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <nav id="nav" class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto align-items-lg-center nav-links-elegant">
+          <li class="nav-item"><a class="nav-link" href="coffee-shopper-management-elegant-commented.html">Coffee Club Sign Up</a></li>
+          <li class="nav-item"><a class="nav-link" href="coffeeShopMenu.html">Menu</a></li>
+          <li class="nav-item"><a class="nav-link" href="coffeeShopperPage.html">Cart</a></li>
+          <li class="nav-item"><a class="nav-link active" aria-current="page" href="Shipping Selection .html">Shipping</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Anchor so Checkout lands here -->
+  <section id="shipping-start" class="py-4">
+    <div class="container">
+      <h1 class="h3 section-title text-white mb-3">Shipping Selection</h1>
+      <p class="text-white-50 m-0">Choose your destination, carrier, and delivery speed.</p>
+    </div>
+  </section>
+
+  <main class="py-4">
+    <div class="container">
+      <div class="row g-4">
+        <!-- LEFT: Destination -->
+        <div class="col-12 col-lg-7">
+          <div class="card-elegant panel-elegant p-3 p-md-4">
+            <h2 class="h5 section-title mb-3">Shipping Destination</h2>
+            <p class="text-muted small mb-3">Enter the address where you want your order delivered.</p>
+
+            <form action="#" method="post">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="fullName" class="form-label">Full Name</label>
+                  <input id="fullName" name="fullName" type="text" class="form-control control-elegant" placeholder="First and Last Name" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="phone" class="form-label">Phone</label>
+                  <input id="phone" name="phone" type="tel" class="form-control control-elegant" placeholder="(555) 555-5555">
+                </div>
+              </div>
+
+              <div class="mt-3">
+                <label for="address1" class="form-label">Address Line 1</label>
+                <input id="address1" name="address1" type="text" class="form-control control-elegant" placeholder="Street address, P.O. box" required>
+              </div>
+
+              <div class="mt-3">
+                <label for="address2" class="form-label">Address Line 2 <span class="text-muted">(optional)</span></label>
+                <input id="address2" name="address2" type="text" class="form-control control-elegant" placeholder="Apartment, suite, unit, building">
+              </div>
+
+              <div class="row g-3 mt-1">
+                <div class="col-md-6">
+                  <label for="city" class="form-label">City</label>
+                  <input id="city" name="city" type="text" class="form-control control-elegant" required>
+                </div>
+                <div class="col-md-3">
+                  <label for="state" class="form-label">State/Province</label>
+                  <input id="state" name="state" type="text" class="form-control control-elegant" placeholder="PA" required>
+                </div>
+                <div class="col-md-3">
+                  <label for="zip" class="form-label">ZIP/Postal Code</label>
+                  <input id="zip" name="zip" type="text" class="form-control control-elegant" required>
+                </div>
+              </div>
+
+              <div class="row g-3 mt-1">
+                <div class="col-md-6">
+                  <label for="country" class="form-label">Country</label>
+                  <select id="country" name="country" class="form-select control-elegant" required>
+                    <option value="">Select a country</option>
+                    <option value="US">United States</option>
+                    <option value="CA">Canada</option>
+                    <option value="MX">Mexico</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label for="notes" class="form-label">Delivery Notes <span class="text-muted">(optional)</span></label>
+                  <input id="notes" name="notes" type="text" class="form-control control-elegant" placeholder="Gate code, leave at front desk, etc.">
+                </div>
+              </div>
+
+              <div class="form-check mt-3">
+                <input class="form-check-input" type="checkbox" value="yes" id="saveAddress" name="saveAddress">
+                <label class="form-check-label" for="saveAddress">Save this address for next time</label>
+              </div>
+
+              <div class="d-flex gap-2 mt-4">
+                <a href="coffeeShopperPage.html" class="btn btn-outline-dark">Back to Cart</a>
+                <a href="#carrier" class="btn btn-amber-elegant">Continue to Shipping Options</a>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- RIGHT: Carrier + Method + Summary -->
+        <div class="col-12 col-lg-5">
+          
+          <div class="visually-hidden">
+            <!-- carriers -->
+            <input type="radio" name="carrier" id="c-ups" checked>
+            <input type="radio" name="carrier" id="c-usps">
+            <input type="radio" name="carrier" id="c-fedex">
+            <!-- methods -->
+            <input type="radio" name="method" id="m-standard" checked>
+            <input type="radio" name="method" id="m-expedited">
+            <input type="radio" name="method" id="m-overnight">
+          </div>
+
+          <!-- Carrier (labels toggle radios above) -->
+          <div id="carrier" class="card-elegant panel-elegant p-3 p-md-4 mb-3 carrier-card">
+            <h2 class="h6 section-title mb-3">Choose a Shipping Carrier</h2>
+
+            <label for="c-ups" class="d-block border rounded shipping-option p-3 mb-2 carrier-label">
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="fw-semibold">UPS</span>
+                <span class="badge badge-selected bg-dark-subtle text-dark-emphasis">Selected</span>
+              </div>
+            </label>
+
+            <label for="c-usps" class="d-block border rounded shipping-option p-3 mb-2 carrier-label">
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="fw-semibold">USPS</span>
+                <span class="badge badge-selected bg-dark-subtle text-dark-emphasis">Selected</span>
+              </div>
+            </label>
+
+            <label for="c-fedex" class="d-block border rounded shipping-option p-3 carrier-label">
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="fw-semibold">FedEx</span>
+                <span class="badge badge-selected bg-dark-subtle text-dark-emphasis">Selected</span>
+              </div>
+            </label>
+          </div>
+
+          <!-- Method -->
+          <div class="card-elegant panel-elegant p-3 p-md-4 mb-3 method-card">
+            <h2 class="h6 section-title mb-3">Select a Shipping Method</h2>
+
+            <label for="m-standard" class="d-block border rounded shipping-option p-3 mb-2 opt-standard">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <strong>Standard</strong>
+                  <div class="text-muted small">3–7 business days</div>
+                </div>
+                <div class="text-end fw-semibold">$5.99</div>
+              </div>
+            </label>
+
+            <label for="m-expedited" class="d-block border rounded shipping-option p-3 mb-2 opt-expedited">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <strong>Expedited</strong>
+                  <div class="text-muted small">2–3 business days</div>
+                </div>
+                <div class="text-end fw-semibold">$12.99</div>
+              </div>
+            </label>
+
+            <label for="m-overnight" class="d-block border rounded shipping-option p-3 opt-overnight">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <strong>Overnight</strong>
+                  <div class="text-muted small">Next business day</div>
+                </div>
+                <div class="text-end fw-semibold">$29.99</div>
+              </div>
+            </label>
+
+            <div class="d-grid mt-3">
+              <a href="#" class="btn btn-amber-elegant">Continue</a>
+            </div>
+            <p class="small text-muted mt-3 mb-0">Prices are estimates and may change at checkout.</p>
+          </div>
+
+          <!-- Order Summary (auto-updates via CSS) -->
+          <div class="card-elegant panel-elegant p-3 p-md-4 summary">
+            <h2 class="h6 section-title mb-3">Order Summary</h2>
+
+            <div class="d-flex justify-content-between">
+              <span>Items</span>
+              <span>$54.00</span>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <span>Carrier</span>
+              <span>
+                <span class="dyn carrier-ups">UPS</span>
+                <span class="dyn carrier-usps">USPS</span>
+                <span class="dyn carrier-fedex">FedEx</span>
+              </span>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <span>Estimated Shipping</span>
+              <span>
+                <span class="dyn ship-standard">$5.99</span>
+                <span class="dyn ship-expedited">$12.99</span>
+                <span class="dyn ship-overnight">$29.99</span>
+              </span>
+            </div>
+
+            <hr class="my-2">
+
+            <div class="d-flex justify-content-between fw-semibold">
+              <span>Total</span>
+              <span>
+                <span class="dyn total-standard">$59.99</span>
+                <span class="dyn total-expedited">$66.99</span>
+                <span class="dyn total-overnight">$83.99</span>
+              </span>
+            </div>
+
+            <p class="small text-muted mt-2 mb-0">Taxes calculated at payment.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer-elegant py-4 mt-4">
+    <div class="container text-center small text-white-50">
+      © 2025 XYZ Coffee. All rights reserved.
+    </div>
+  </footer>
+
+  <!-- Bootstrap Bundle (navbar collapse only) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+</body>
+</html>
