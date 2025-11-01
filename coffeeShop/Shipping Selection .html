@@ -28,7 +28,12 @@
         <ul class="navbar-nav ms-auto align-items-lg-center nav-links-elegant">
           <li class="nav-item"><a class="nav-link" href="coffee-shopper-management-elegant-commented.html">Coffee Club Sign Up</a></li>
           <li class="nav-item"><a class="nav-link" href="coffeeShopMenu.html">Menu</a></li>
-          <li class="nav-item"><a class="nav-link" href="coffeeShopperPage.html">Cart</a></li>
+	<li class="nav-item">
+  <a class="nav-link position-relative" href="#" data-bs-toggle="offcanvas" data-bs-target="#cartDrawer">
+    Cart
+    <span id="cartCount" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark">0</span>
+  </a>
+</li>
           <li class="nav-item"><a class="nav-link active" aria-current="page" href="Shipping Selection .html">Shipping</a></li>
         </ul>
       </nav>
@@ -136,21 +141,21 @@
           <div id="carrier" class="card-elegant panel-elegant p-3 p-md-4 mb-3 carrier-card">
             <h2 class="h6 section-title mb-3">Choose a Shipping Carrier</h2>
 
-            <label for="c-ups" class="d-block border rounded shipping-option p-3 mb-2 carrier-label">
+            <label for="c-ups" class="d-block border rounded shipping-option p-3 mb-2 carrier-label" id="UPS" onclick="updateCarrier('UPS')">
               <div class="d-flex justify-content-between align-items-center">
                 <span class="fw-semibold">UPS</span>
                 <span class="badge badge-selected bg-dark-subtle text-dark-emphasis">Selected</span>
               </div>
             </label>
 
-            <label for="c-usps" class="d-block border rounded shipping-option p-3 mb-2 carrier-label">
+            <label for="c-usps" class="d-block border rounded shipping-option p-3 mb-2 carrier-label" id="USPS" onclick="updateCarrier('USPS')">
               <div class="d-flex justify-content-between align-items-center">
                 <span class="fw-semibold">USPS</span>
                 <span class="badge badge-selected bg-dark-subtle text-dark-emphasis">Selected</span>
               </div>
             </label>
 
-            <label for="c-fedex" class="d-block border rounded shipping-option p-3 carrier-label">
+            <label for="c-fedex" class="d-block border rounded shipping-option p-3 carrier-label" id="FedEx" onclick="updateCarrier('FedEx')">
               <div class="d-flex justify-content-between align-items-center">
                 <span class="fw-semibold">FedEx</span>
                 <span class="badge badge-selected bg-dark-subtle text-dark-emphasis">Selected</span>
@@ -163,7 +168,7 @@
             <h2 class="h6 section-title mb-3">Select a Shipping Method</h2>
 
             <label for="m-standard" class="d-block border rounded shipping-option p-3 mb-2 opt-standard">
-              <div class="d-flex justify-content-between align-items-center">
+              <div class="d-flex justify-content-between align-items-center" id="standardShipping" onclick="updateShipping('5.99')">
                 <div>
                   <strong>Standard</strong>
                   <div class="text-muted small">3–7 business days</div>
@@ -173,7 +178,7 @@
             </label>
 
             <label for="m-expedited" class="d-block border rounded shipping-option p-3 mb-2 opt-expedited">
-              <div class="d-flex justify-content-between align-items-center">
+              <div class="d-flex justify-content-between align-items-center" id="expeditedShipping" onclick="updateShipping('12.99')">
                 <div>
                   <strong>Expedited</strong>
                   <div class="text-muted small">2–3 business days</div>
@@ -183,7 +188,7 @@
             </label>
 
             <label for="m-overnight" class="d-block border rounded shipping-option p-3 opt-overnight">
-              <div class="d-flex justify-content-between align-items-center">
+              <div class="d-flex justify-content-between align-items-center" id="overnightShipping" onclick="updateShipping('29.99')">
                 <div>
                   <strong>Overnight</strong>
                   <div class="text-muted small">Next business day</div>
@@ -193,7 +198,7 @@
             </label>
 
             <div class="d-grid mt-3">
-              <a href="#" class="btn btn-amber-elegant">Continue</a>
+              <a href="#" class="btn btn-amber-elegant" onclick="updateTotal()">Calculate Total</a>
             </div>
             <p class="small text-muted mt-3 mb-0">Prices are estimates and may change at checkout.</p>
           </div>
@@ -204,24 +209,28 @@
 
             <div class="d-flex justify-content-between">
               <span>Items</span>
-              <span>$54.00</span>
+              <span id="itemTotal"></span>
             </div>
 
             <div class="d-flex justify-content-between">
               <span>Carrier</span>
-              <span>
+              <span id="carrierChoice">
+<!--
                 <span class="dyn carrier-ups">UPS</span>
                 <span class="dyn carrier-usps">USPS</span>
                 <span class="dyn carrier-fedex">FedEx</span>
+-->
               </span>
             </div>
 
             <div class="d-flex justify-content-between">
               <span>Estimated Shipping</span>
-              <span>
+              <span id="shippingTotal">
+<!--
                 <span class="dyn ship-standard">$5.99</span>
                 <span class="dyn ship-expedited">$12.99</span>
                 <span class="dyn ship-overnight">$29.99</span>
+-->
               </span>
             </div>
 
@@ -229,10 +238,12 @@
 
             <div class="d-flex justify-content-between fw-semibold">
               <span>Total</span>
-              <span>
+              <span id="orderTotal">
+<!--
                 <span class="dyn total-standard">$59.99</span>
                 <span class="dyn total-expedited">$66.99</span>
                 <span class="dyn total-overnight">$83.99</span>
+-->
               </span>
             </div>
 
@@ -251,5 +262,28 @@
 
   <!-- Bootstrap Bundle (navbar collapse only) -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+	<script src="newscript.js"></script>
+	<script src="shippingPage.js"></script>
+	
+	<div class="offcanvas offcanvas-end" tabindex="-1" id="cartDrawer" aria-labelledby="cartDrawerLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="cartDrawerLabel">Your Cart</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <ul id="cartList" class="list-group mb-3"><!-- items render here --></ul>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <strong>Total:</strong>
+      <span id="cartTotal">$0.00</span>
+    </div>
+    <div class="d-grid gap-2">
+      <a href="Shipping Selection .html#shipping-start" class="btn btn-amber-elegant btn-lg w-100">Checkout</a>
+      <button id="clearCartBtn" class="btn btn-outline-dark">Clear Cart</button>
+      <button id="saveCart" class="btn btn-amber-elegant">Save Cart</button>
+      <button id="loadCart" class="btn btn-outline-dark">Load Cart</button>
+    </div>
+  </div>
+</div>
+	
 </body>
 </html>

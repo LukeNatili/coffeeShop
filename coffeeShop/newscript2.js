@@ -280,7 +280,7 @@ localStorage.setItem('products', JSON.stringify(items));
 let products = {}; //Load saved products or create new products list
 
 //function saveProducts() {
-  //localStorage.setItem('products', JSON.stringify(products));
+//  localStorage.setItem('products', JSON.stringify(products));
 //}
 
 function presentProducts() {

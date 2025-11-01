@@ -1,4 +1,4 @@
-$(document).ready(function() {
+window.onload = function() {
 var form = document.getElementById('shopperForm');
 var tableBody = document.querySelector('#shopperTable tbody');
 var search = document.getElementById('search');
@@ -154,6 +154,7 @@ if (form) {
     $totalEl.text( '$' + t.total.toFixed(2));
     $cartCountEl.text(t.count);
   }
+	
 
   function loadCartClickHandler() {
     $('#loadCart').on('click', function() {
@@ -209,6 +210,12 @@ if (form) {
     }
     summary += '\nTotal: $' + cartTotals().total.toFixed(2);
     alert(summary);
+	  
+	  for (i = 0; i < cart.length; i++) {
+		  console.log(cart[i].name + " $" + cart[i].price);
+	  }
+	  localStorage.setItem('cart', JSON.stringify(cart));
+    
     cart = [];
     saveCart();
     updateUI();
@@ -401,4 +408,4 @@ $('.col-12.col-lg-3').each(function() {
 });
 
 
-});
+};
