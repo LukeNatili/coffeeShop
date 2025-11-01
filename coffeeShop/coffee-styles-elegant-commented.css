@@ -205,3 +205,56 @@ body{
 	color: #2A1200;
 	border-color:#FFDC89;
 }
+
+/* Shipping Selection CSS */
+.shipping-option { cursor: pointer; }
+.shipping-option:hover {
+  background-color: #f8f9fa;
+  transition: background-color 0.2s ease;
+}
+
+/* Match rounded inputs from your theme */
+.card-elegant.panel-elegant .form-label { margin-bottom: 0.35rem; }
+.card-elegant.panel-elegant .form-control,
+.card-elegant.panel-elegant .form-select { border-radius: 12px; }
+
+
+/* 1) Carrier “Selected” badge: hide all by default */
+.badge-selected { display: none; }
+
+/* Show badge on the chosen carrier label */
+#c-ups:checked    ~ .carrier-card label[for="c-ups"]   .badge-selected { display: inline; }
+#c-usps:checked   ~ .carrier-card label[for="c-usps"]  .badge-selected { display: inline; }
+#c-fedex:checked  ~ .carrier-card label[for="c-fedex"] .badge-selected { display: inline; }
+
+/* 2) Method tile highlight: put a blue border/halo on the chosen method */
+.opt-standard, .opt-expedited, .opt-overnight { border: 1px solid rgba(0,0,0,.125); }
+#c-ups:checked, #c-usps:checked, #c-fedex:checked {} /* (placeholder keeps order clear) */
+
+#m-standard:checked  ~ .method-card .opt-standard  { border-color: #0d6efd; box-shadow: 0 0 0 .15rem rgba(13,110,253,.15); }
+#m-expedited:checked ~ .method-card .opt-expedited { border-color: #0d6efd; box-shadow: 0 0 0 .15rem rgba(13,110,253,.15); }
+#m-overnight:checked ~ .method-card .opt-overnight { border-color: #0d6efd; box-shadow: 0 0 0 .15rem rgba(13,110,253,.15); }
+
+/* 3) Order Summary: show only the pieces that match the current choice */
+.summary .dyn { display: none; }
+
+/* Carrier name in summary */
+#c-ups:checked    ~ .summary .carrier-ups    { display: inline; }
+#c-usps:checked   ~ .summary .carrier-usps   { display: inline; }
+#c-fedex:checked  ~ .summary .carrier-fedex  { display: inline; }
+
+/* Shipping price + Total in summary */
+#m-standard:checked  ~ .summary .ship-standard,
+#m-standard:checked  ~ .summary .total-standard  { display: inline; }
+
+#m-expedited:checked ~ .summary .ship-expedited,
+#m-expedited:checked ~ .summary .total-expedited { display: inline; }
+
+#m-overnight:checked ~ .summary .ship-overnight,
+#m-overnight:checked ~ .summary .total-overnight { display: inline; }
+
+
+/* Make the “Continue” button block-level on small screens */
+@media (max-width: 576px) {
+  .method-card .btn { width: 100%; }
+}
