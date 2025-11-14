@@ -211,6 +211,7 @@ if (form) {
     summary += '\nTotal: $' + cartTotals().total.toFixed(2);
     alert(summary);
 	  
+	  // Prints what items are in the cart, then saves the cart
 	  for (i = 0; i < cart.length; i++) {
 		  console.log(cart[i].name + " $" + cart[i].price);
 	  }
@@ -406,6 +407,7 @@ $('.col-12.col-lg-3').each(function() {
 		}
 	});
 });
+
 
 
 };

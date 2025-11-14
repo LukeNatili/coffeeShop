@@ -15,7 +15,7 @@ window.onload = function() {
 	for (let i = 0; i < cart.length; i++) {
 		console.log(cart[i].name + " $" + cart[i].price);
 		let item = document.createElement('div');
-		item.innerHTML = cart[i].name + " $" + cart[i].price;
+		item.innerHTML = cart[i].name + " x " + cart[i].qty + " $" + cart[i].price;
 		items.appendChild(item);
 	}
 	

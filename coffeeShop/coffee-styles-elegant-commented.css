@@ -122,6 +122,58 @@ body{
 	align-items: center;
 	
 }
+
+
+/*billing css -ln*/
+#billing-title {
+	padding-bottom: 10px;
+}
+
+#billing-form {
+	display: flex;
+	flex-flow: row wrap;
+	gap: 10px 5px;
+	align-items: center;
+}
+
+#special-label, #special-details, #billing-card-cvv {
+	flex-basis: 100%;
+}
+
+#billing-form label {
+	font-weight: 400;
+	text-align: right;
+	padding-right: 5px;
+}
+#billing-section {
+	max-width: 680px;
+	padding: 20px;
+	border-radius: 18px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	background-color: darkgray;
+	margin-bottom: 40px;
+	margin-right: 20px;
+}
+#items-section {
+	max-width: 300px;
+	padding: 20px;
+	border-radius: 18px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	background-color: darkgray;
+	margin-bottom: 40px;
+}
+#forms-div {
+	display: flex;
+	flex-flow: row-reverse wrap;
+}
+
+#billing-first-name, #billing-last-name, #billing-phone {
+	width: 200px;
+}
+
+
+
+
 #new-product-form label {
 	font-weight: 400;
 	text-align: right;

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Brewed Bliss • Shopper Management</title>
+
+  <!-- Bootstrap: base layout, grid, components -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+  <!-- Web fonts: Playfair for headings (elegant), Inter for UI/body (readable) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <!-- Page stylesheet (elegant theme) -->
+  <link rel="stylesheet" href="coffee-styles-elegant-commented.css">
+</head>
+<body>
+  <!-- Sticky glass navbar with brand and quick links -->
+  <header class="navbar navbar-expand-lg navbar-dark sticky-top nav-elegant">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center brand-elegant" href="#">
+        <span>XYZ Coffee</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <nav id="nav" class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto align-items-lg-center nav-links-elegant">
+          <li class="nav-item"><a class="nav-link active" href="coffee-shopper-management-elegant-commented.html">Coffee Club Sign Up</a></li>
+          <li class="nav-item"><a class="nav-link" href="">Menu</a></li>
+			
+	<li class="nav-item">
+  <a class="nav-link position-relative" href="#" data-bs-toggle="offcanvas" data-bs-target="#cartDrawer">
+    Cart
+    <span id="cartCount" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark">0</span>
+  </a>
+</li>
+          <!-- Use unique id to avoid collisions with form field ids -->
+          <li class="nav-item"><a class="nav-link" href="">Perks</a></li>
+		  <li class="nav-item"><a class="nav-link" href="productPage.html">Products</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+
+
+  <!-- Menu Content -->
+  <main class="container py-5">
+		
+	  <div id="forms-div">
+	  
+	  <section id="items-section">
+	  	<h1 id="items-title"><span>Cart Items</span></h1>
+		<form id="items-form">
+
+		</form>
+	  </section>
+	  
+	<section class="billing-section" id="billing-section">
+	<h1 id="billing-title"><span>Billing Details</span></h1>
+	<form id="billing-form">
+
+			<label for="billing-first-name" id="first-name-label">First Name: </label>
+			<input type="text" id="billing-first-name" value="" required>
+
+			<label for="billing-last-name" id="last-name-label">Last Name:</label>
+			<input type="text" id="billing-last-name" required>
+		
+			<label for="billing-address">Address: </label>
+			<input type="text" id="billing-address" step="0.01" required>
+
+			<label for="billing-phone">Phone Number: </label>
+			<input type="number" id="billing-phone" required>
+
+			<label for="billing-email">Email Address: </label>
+			<input type="text" id="billing-email" required>
+		
+			<label for="billing-card-digits">Card Digits: 
+				<input type="number" id="billing-card-digits" required>
+			</label>
+<!--		Last place I altered -ln -->
+		
+			<label for="billing-card-cvv" id="cvv-label">CVV: 
+				<input type="number" id="billing-card-cvv" required>
+			</label>
+
+			<lable for="product-size" id="special-label">Special Details: </lable>
+			<textarea id="special-details"></textarea>
+
+				<div id="form-buttons">
+			<button type="submit" id="submit-new" onclick="generateOrderNumber()">Finish Order</button>
+			<button type="button" id="cancel-new" style="display:none;">Cancel</button>
+				</div>
+		</form>
+	</section>
+
+	  </div>
+
+        <!-- Menu teaser cards to keep the page visually rich -->
+        <section id="menu" class="mt-4">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="menu-card-elegant">
+                <img src="https://images.unsplash.com/photo-1504753793650-d4a2b783c15e?w=900&q=80&auto=format&fit=crop" alt="Latte art">
+                <div class="menu-overlay-elegant">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="menu-card-elegant">
+                <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?w=900&q=80&auto=format&fit=crop" alt="Espresso shot">
+                <div class="menu-overlay-elegant">
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+        <section id="perksSection" class="mt-4">
+          <div class="row g-3">
+            <div class="col-md-12">
+              <div class="perk-banner-elegant d-flex align-items-center justify-content-between flex-wrap gap-3">
+                <div>
+                  <h3 class="perk-title">Join Platinum</h3>
+                  <p class="perk-sub">Free refills, priority pickup, exclusive tastings.</p>
+                </div>
+                <a href="#new" class="btn btn-amber-elegant fw-semibold">Enroll</a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    
+  </main>
+
+
+  <footer class="py-5 text-center small footer-elegant">
+    <span id="year"></span> IST256 Group Project 
+  </footer>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+	<script src="newscript.js"></script>
+	<script src="productManage.js"></script>
+  
+	<!-- NEW: Offcanvas cart drawer (simple cart list + total) -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="cartDrawer" aria-labelledby="cartDrawerLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="cartDrawerLabel">Your Cart</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <ul id="cartList" class="list-group mb-3"><!-- items render here --></ul>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <strong>Total:</strong>
+      <span id="cartTotal">$0.00</span>
+    </div>
+    <div class="d-grid gap-2">
+      <a href="Shipping Selection .html#shipping-start" class="btn btn-amber-elegant btn-lg w-100" id="checkoutBtn">Checkout</a>
+      <button id="clearCartBtn" class="btn btn-outline-dark">Clear Cart</button>
+      <button id="saveCart" class="btn btn-amber-elegant">Save Cart</button>
+      <button id="loadCart" class="btn btn-outline-dark">Load Cart</button>
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>
+
