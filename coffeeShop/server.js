@@ -1,23 +1,38 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const { send } = require('process');
 const port = 8000;
 
 const DATA_FILE = path.join(__dirname, 'products.json');
+const ORDER_FILE = path.join(__dirname, 'orders.json');
 
+// eventually remap these to a database? Or store as a map 
 let products = [];
-if (fs.existsSync(DATA_FILE)) {
-	const data = fs.readFileSync(DATA_FILE);
+let orders = [];
+
+//Function for loading JSON data from file - LP
+function loadJSON(filePath) {
+	const data = fs.readFileSynce(filePath);
 	try {
-		products = JSON.parse(data);
+		return JSON.parse(data);
 	}
 	catch {
-		products = [];
+		return [];
 	}
 }
 
-function saveProducts() {
-	fs.writeFileSync(DATA_FILE, JSON.stringify(products, null, 2));
+if (fs.existsSync(ORDER_FILE)) {
+	orders = loadJSON(ORDER_FILE);
+}
+if (fs.existsSync(DATA_FILE)) {
+	products = loadJSON(DATA_FILE)
+}
+
+//Function for saving orders/products to JSON file - LP
+
+function saveJSON(FILE) {
+	fs.writeFileSync(FILE, JSON.stringify(products, null, 2));
 }
 
 function sendJSON(res, statusCode, data) {
@@ -26,8 +41,13 @@ function sendJSON(res, statusCode, data) {
 }
 
 
+//Rewrite of server code to make more portable/reusable - LP
 const server = http.createServer((req, res) => {
 	const {method, url} = req;
+
+	const urlParts = url.split('/').filter(Boolean); //split url and remove empty string/falsy values.
+	const resource = urlParts[1]; //find if we are going into products or orders, or other resource
+	const id = urlParts[2]; //find id of resource where applicable
 	
 	//CORS
 	
@@ -39,28 +59,43 @@ const server = http.createServer((req, res) => {
 		res.writeHead(204);
 		return res.end();
 	}
-	//Retrieving products from server
-	if (method ==='GET' && url === '/api/products') {
-		return sendJSON(res, 200, products);
+	//Rewritten - Retrieve resource from server
+	if (method ==='GET' && urlParts[0] === 'api') {
+		if (!id) {
+		return sendJSON (res, 200, resource) //All data should have an ID though
+		}
+		else {
+			const item = resource.find(p => String(p.id) === String(id)); //check for product with id, and return error if we cannot find an item with that id
+			if (!item) {
+				return sendJSON(res, 404, {error: `${resource}: ${id} not found`});
+			}
+			return sendJSON(res, 200, item);
+		}
 	}
+
 	
-	//Saving products to server
+	//Rewrite - More generalized POST handler for both products and orders and future resources
 	
-	if(method === 'POST' && url === '/api/products') {
+	if(method === 'POST' && urlParts[0] === 'api') {
 		let body = '';
 		req.on('data', chunk => (body += chunk));
 		req.on('end', () => {
 			try {
-				const product = JSON.parse(body);
-				const exists = products.find( p => p.id === product.id);
+				const item = JSON.parse(body);
+				const exists = resource.find( p => p.id === item.id);
 				
 				if (exists) {
-					return sendJSON(res, 400, {error: 'There is already a product with this ID' });
+					return sendJSON(res, 400, {error: `${resource} with id ${item.id} already exists`});
 				}
 				
-				products.push(product);
-				saveProducts();
-				sendJSON(res, 201, product);
+				resource.push(item);
+				if (resource === products) {
+					saveJSON(DATA_FILE);
+				} 
+				else if (resource === orders) {
+					saveJSON(ORDER_FILE);
+				}
+				sendJSON(res, 201, item);
 			}
 			catch (err) {
 				sendJSON(res, 400, {error: 'Invalid JSON'});
@@ -70,14 +105,18 @@ const server = http.createServer((req, res) => {
 	}
 	
 	//Deleting products from server
-	if(method === 'DELETE' && url.startsWith('/api/products/')) {
-		const id = url.split('/').pop();
-		const index = products.findIndex(p => String(p.id) === String(id)); //If the index exists, it'll store it, otheriwse it's -1
+	if(method === 'DELETE' && urlParts[0] === 'api' && id) {
+		const index = resource.findIndex(p => String(p.id) === String(id)); //If the index exists, it'll store it, otheriwse it's -1
 		if (index === -1) { //No product with this id
-			return sendJSON(res, 404, {error: 'Product not found'});
+			return sendJSON(res, 404, {error: `${resource}: ${id} not found`});
 		}
-		products.splice(index, 1);
-		saveProducts();
+		resource.splice(index, 1);
+		if (resource === products) {
+			saveJSON(DATA_FILE);
+		}
+		else if (resource === orders) {
+			saveJSON(ORDER_FILE);
+		}
 		return sendJSON(res, 200, {message: 'Delete Successful'});
 	}
 	

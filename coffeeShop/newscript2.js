@@ -376,7 +376,7 @@ function deleteClick(buttonDelete) {
 
   presentProducts();
   //Submitting the form w/add
-  $('#new-product-form').on('submit', function(e) {
+$('#new-product-form').on('submit', function(e) {
     e.preventDefault();
 	
 	const newProductData = formSubmit();
