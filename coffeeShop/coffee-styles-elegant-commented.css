@@ -124,38 +124,41 @@ body{
 }
 
 
-/*billing css -ln*/
-#billing-title {
+/*billing and returns css -ln*/
+#billing-title, #return-title {
 	padding-bottom: 10px;
 }
 
-#billing-form {
+#billing-form, #return-form {
 	display: flex;
 	flex-flow: row wrap;
 	gap: 10px 5px;
 	align-items: center;
 }
 
-#special-label, #special-details, #billing-card-cvv {
+#special-label, #special-details, #return-comments, #billing-card-cvv, .return-verify {
 	flex-basis: 100%;
 }
 
-#billing-form label {
+#billing-form, #return-form label {
 	font-weight: 400;
 	text-align: right;
 	padding-right: 5px;
 }
-#billing-section {
-	max-width: 680px;
+#billing-section, #return-section {
+	width: 680px;
+	max-height: 450px;
 	padding: 20px;
 	border-radius: 18px;
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 	background-color: darkgray;
 	margin-bottom: 40px;
 	margin-right: 20px;
+	justify-content: center;
 }
 #items-section {
-	max-width: 300px;
+	max-width: 350px;
+	height: inherit;
 	padding: 20px;
 	border-radius: 18px;
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -165,10 +168,14 @@ body{
 #forms-div {
 	display: flex;
 	flex-flow: row-reverse wrap;
+	justify-content: center;
 }
 
 #billing-first-name, #billing-last-name, #billing-phone {
 	width: 200px;
+}
+.return-verify {
+	flex-basis: 100%;
 }
 
 

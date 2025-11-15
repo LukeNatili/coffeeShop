@@ -49,45 +49,45 @@
 	  <div id="forms-div">
 	  
 	  <section id="items-section">
-	  	<h1 id="items-title"><span>Cart Items</span></h1>
+	  	<h1 id="items-title"><span>Order Contents</span></h1>
 		<form id="items-form">
 
 		</form>
 	  </section>
 	  
-	<section class="billing-section" id="billing-section">
-	<h1 id="billing-title"><span>Billing Details</span></h1>
-	<form id="billing-form">
-
-			<label for="billing-first-name" id="first-name-label">First Name* </label>
-			<input type="text" id="billing-first-name" value="" required>
-
-			<label for="billing-last-name" id="last-name-label">Last Name*</label>
-			<input type="text" id="billing-last-name" required>
+	<section class="return-section" id="return-section">
+	<h1 id="return-title"><span>Product Returns</span></h1>
+	<form id="return-form">
+		<label id="order-number">Order Number*
+		<input type="text" id="order-number" required>
+		</label>
 		
-			<label for="billing-address">Address* </label>
-			<input type="text" id="billing-address" step="0.01" required>
-
-			<label for="billing-phone">Phone Number* </label>
-			<input type="number" id="billing-phone" required>
-
-			<label for="billing-email">Email Address* </label>
-			<input type="text" id="billing-email" required>
+		<label>Card Digits* 
+		<input type="text" id="return-card-digits" required>
+		</label>
+		<label>CVV* 
+		<input type="text" id="return-card-cvv" required>
+		</label>
 		
-			<label for="billing-card-digits">Card Digits* 
-				<input type="number" id="billing-card-digits" required>
-			</label>
-<!--		Last place I altered -ln -->
+		<label>Reason for Return* </label>
+		<select id="return-reason" required>
+			
+			<option value="" disabled selected>Please select an option. </option>
+			<option value="Damaged">Damaged</option>
+			<option value="neverReceived">Never Received</option>
+			<option value="Other">Other</option>
+		</select>
 		
-			<label for="billing-card-cvv" id="cvv-label">CVV* 
-				<input type="number" id="billing-card-cvv" required>
-			</label>
-
-			<lable for="product-size" id="special-label">Special Details </lable>
-			<textarea id="special-details"></textarea>
+		<div id="form-buttons" class="return-verify">
+			<button type="submit" id="submit-new" class="return-verify">Verify Order Contents</button>
+		</div>
+		
+		<label id="return-comments">Additional Comments</label>
+		<textarea id="return-comments"></textarea>
+		
 
 				<div id="form-buttons">
-			<button type="submit" id="submit-new" onclick="generateOrderNumber()">Finish Order</button>
+			<button type="submit" id="submit-new" onclick="generateOrderNumber()">Submit Return</button>
 			<button type="button" id="cancel-new" style="display:none;">Cancel</button>
 				</div>
 		</form>
@@ -140,7 +140,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 	<script src="newscript.js"></script>
-	<script src="billingPage.js"></script>
+	<script src="returnsPage.js"></script>
   
 	<!-- NEW: Offcanvas cart drawer (simple cart list + total) -->
 <div class="offcanvas offcanvas-end" tabindex="-1" id="cartDrawer" aria-labelledby="cartDrawerLabel">
