@@ -58,39 +58,48 @@
 	<section class="return-section" id="return-section">
 	<h1 id="return-title"><span>Product Returns</span></h1>
 	<form id="return-form">
-		<label id="order-number">Order Number*
-		<input type="text" id="order-number" required>
-		</label>
-		
-		<label>Card Digits* 
-		<input type="text" id="return-card-digits" required>
-		</label>
-		<label>CVV* 
-		<input type="text" id="return-card-cvv" required>
-		</label>
-		
-		<label>Reason for Return* </label>
-		<select id="return-reason" required>
-			
-			<option value="" disabled selected>Please select an option. </option>
-			<option value="Damaged">Damaged</option>
-			<option value="neverReceived">Never Received</option>
-			<option value="Other">Other</option>
-		</select>
-		
-		<div id="form-buttons" class="return-verify">
-			<button type="submit" id="submit-new" class="return-verify">Verify Order Contents</button>
-		</div>
-		
-		<label id="return-comments">Additional Comments</label>
-		<textarea id="return-comments"></textarea>
-		
+  <!-- Order Number the customer got on the billing page -->
+  <label for="return-order-number" id="order-number-label">Order Number*
+    <input type="text" id="return-order-number" required>
+  </label>
 
-				<div id="form-buttons">
-			<button type="submit" id="submit-new" onclick="generateOrderNumber()">Submit Return</button>
-			<button type="button" id="cancel-new" style="display:none;">Cancel</button>
-				</div>
-		</form>
+  <label for="return-card-digits">Card Digits* 
+    <input type="text" id="return-card-digits" required>
+  </label>
+
+  <label for="return-card-cvv">CVV* 
+    <input type="text" id="return-card-cvv" required>
+  </label>
+
+  <label for="return-reason">Reason for Return* </label>
+  <select id="return-reason" required>
+    <option value="" disabled selected>Please select an option. </option>
+    <option value="Damaged">Damaged</option>
+    <option value="neverReceived">Never Received</option>
+    <option value="Other">Other</option>
+  </select>
+
+  <!-- This submit runs the JS that verifies the order by number -->
+  <div id="form-buttons" class="return-verify">
+    <button type="submit" id="submit-new" class="return-verify">
+      Verify Order Contents
+    </button>
+  </div>
+
+  <!-- NEW: message & items area for the JS to write into -->
+  <p id="return-message" class="mt-3"></p>
+  <div id="return-items" class="mt-2"></div>
+
+  <label for="return-comments">Additional Comments</label>
+  <textarea id="return-comments"></textarea>
+
+  <!-- Keep a separate final submit button, but don't run generateOrderNumber here -->
+  <div id="form-buttons-final">
+    <button type="button" id="submit-return">Submit Return</button>
+    <button type="button" id="cancel-new" style="display:none;">Cancel</button>
+  </div>
+</form>
+
 	</section>
 
 	  </div>
