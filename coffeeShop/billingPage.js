@@ -141,6 +141,22 @@ function validateBillingForm() {
 }
 
 // Order number functions
+function saveOrderInfo(orderNumber) {
+    $.ajax({
+        url: 'http://localhost:8000/api/orders',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({orderNumber: orderNumber, cart: cart}),
+        success: function (response) {
+            console.log('Order saved Successfully');
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.error('Error saving order: ' + textStatus, errorThrown);
+        }
+        }
+
+    );
+}
 
 function generateOrderNumber() {
     if (!okToGenerate) {
@@ -187,5 +203,7 @@ function associateOrderWithNumber(orderNumber) {
     };
 
     localStorage.setItem(orderNumber, JSON.stringify(orderInformation));
-    localStorage.setItem("lastOrderNumber", orderNumber);
+    saveOrderInfo(orderNumber);
+    localStorage.setItem("lastOrderNumber", orderNumber);    
 }
+

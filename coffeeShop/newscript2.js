@@ -95,11 +95,20 @@ if (form) {
   if (!cartCountEl) return;
 
   // NEW: Basic in-memory cart with localStorage fallback (keeps it simple)
-  var CART_KEY = 'bb_cart';
+  var CART_KEY = '';
   var cart = [];
 
   // NEW: Helper to load/save the cart
   function loadCart() {
+    //$.ajax({
+    //  url: 'http://localhost:8000/api/cart',
+    //  method: 'GET',
+    //  dataType: 'json',
+    //  success: function(data) {
+    //    cart = data || [];
+    //    console.log("Cart loaded from server. ");
+    //  }
+    //})
     try {
       var raw = localStorage.getItem(CART_KEY);
       cart = raw ? JSON.parse(raw) : [];
@@ -108,10 +117,38 @@ if (form) {
     }
   }
   function saveCart() {
+    if(cart) {
+       CART_KEY = generateOrderNumber();
+      cart.unshift({ID: CART_KEY}); //add random id number to cart. would in future need to check against existing cart ids
+      $.ajax({
+        url: 'http://localhost:8000/api/cart',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(cart),
+        dataType: 'json',
+        success: function(response) { 
+          console.log("Cart saved succesfully to server.");
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          console.error("Error saving cart to server: ", textStatus, errorThrown)
+        }
+        
+      })
+    }
     try {
       localStorage.setItem(CART_KEY, JSON.stringify(cart));
     } catch (e) { /* no-op */ }
   }
+  function generateOrderNumber() {		
+		const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+	    let result = '';
+		let charactersLength = 7;
+	    for (let i = 0; i < charactersLength; i++) {
+		  result += characters.charAt(Math.floor(Math.random() * charactersLength));
+	    }
+		return result;
+		
+	}
 
   // NEW: Calculate total and count
   function cartTotals() {
