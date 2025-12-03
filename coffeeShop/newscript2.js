@@ -98,6 +98,14 @@ if (form) {
   var CART_KEY = '';
   var cart = [];
 
+  if (!CART_KEY) {
+    CART_KEY = generateOrderNumber();
+    localStorage.setItem('cartKey', CART_KEY);
+    console.log("New Cart Session Started with Key: " + CART_KEY);
+  }
+  else {
+    console.log("Existing Cart Session Found with Key: " + CART_KEY);
+  }
   // NEW: Helper to load/save the cart
   function loadCart() {
     //$.ajax({
@@ -118,7 +126,6 @@ if (form) {
   }
   function saveCart() {
     if(cart) {
-       CART_KEY = generateOrderNumber();
       cart.unshift({ID: CART_KEY}); //add random id number to cart. would in future need to check against existing cart ids
       $.ajax({
         url: 'http://localhost:8000/api/cart',
