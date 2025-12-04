@@ -3,6 +3,29 @@ const fs = require('fs');
 const path = require('path');
 const { send } = require('process');
 const port = 8000;
+const crypto = require('crypto');
+const { MongoClient } = require('mongodb');
+const uri = 'mongodb://localhost:27017'; //seems to be default for local MongoDB installations
+const dbName = 'coffeShopDB';
+let db;
+
+function generateSessionID() {
+	return crypto.randomBytes(16).toString('hex');
+}
+
+async function connectDB() {
+	try {
+		const client = new MongoClient(uri);
+		await client.connect();
+		console.log('Successfully connected to MongoDB');
+		db = client.db(dbName);
+	}
+	catch (err) {
+		console.error("Failed to connect  to Database", err);
+		process.exit(1);
+	}
+}
+
 
 const DATA_FILE = path.join(__dirname, 'products.json');
 const ORDER_FILE = path.join(__dirname, 'orders.json');
@@ -144,7 +167,8 @@ const server = http.createServer((req, res) => {
 	});
 	
 	//Server startup
-	
+async function startServer() {
+	await connectDB();	
 	server.listen(port, () => {
 		console.log(`Server started succesfully. Running on http://localhost:${port}`);
 	});		
@@ -156,5 +180,7 @@ const server = http.createServer((req, res) => {
 			process.exit(0);
 		});
 	});
-	
+}
+
+startServer();
 		
