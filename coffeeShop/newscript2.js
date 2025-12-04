@@ -22,6 +22,9 @@ var inputs = {
   age: document.getElementById('age')
 };
 
+
+
+
 /*Constants for states for scrolldown menu - LP */
 var states = ["AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"];
 var selectState = document.getElementById('state');
@@ -106,6 +109,37 @@ if (form) {
   else {
     console.log("Existing Cart Session Found with Key: " + CART_KEY);
   }
+
+
+  var items = [
+  { id: 'cartCappucino', name: 'Cappucino', price: 9.99, category: "Coffee", size: 4},
+  { id: 'cartLatte', name: 'Latte', price: 9.99, category: "Coffee", size: 6 },
+  { id: 'cartEspresso', name: 'Espresso', price: 6.99, category: "Coffee", size: 2 },
+  { id: 'cartAffogato', name: 'Affogato', price: 11.99, category: "Coffee", size: 10 },
+  { id: 'cartAmericano', name: 'Americano', price: 6.99, category: "Coffee", size: 8 },
+  { id: 'cartMocha', name: 'Mocha', price: 11.99, category: "Coffee", size: 6 },
+  { id: 'cartIrish', name: 'Irish', price: 13.99, category: "Coffee", size: 8 },
+  { id: 'cartMacchiato', name: 'Macchiato', price: 8.99, category: "Coffee", size: 6 },
+  { id: 'cartBlack', name: 'Black', price: 4.99, category: "Coffee", size: 8 },
+  { id: 'cartDecaf', name: 'Decaf', price: 4.99, category: "Coffee", size: 8 }
+  ];
+  const jsonString = JSON.stringify(items);
+  console.log(jsonString)
+
+  // $.ajax({
+  //   url: 'http://localhost:8000/api/products',
+  //   method: 'POST',
+  //   contentType: 'application/json',
+  //   data: jsonString,
+  //   dataType: 'json',
+  //   success: function(response) {
+  //     console.log("Products added to server successfully. ");
+  //   },
+  //   error: function(jqXHR, textStatus, errorThrown) {
+  //     console.error("Error adding products to server: ", textStatus, errorThrown);
+  //   }
+  // });
+    
   // NEW: Helper to load/save the cart
   function loadCart() {
     $.ajax({
@@ -115,7 +149,7 @@ if (form) {
      success: function(data) {
        cart = data || [];
        console.log("Cart loaded from server. ");
-     }
+       updateUI();}
     })
     try {
       var raw = localStorage.getItem(CART_KEY);
@@ -131,7 +165,7 @@ if (form) {
         url: 'http://localhost:8000/api/cart',
         method: 'POST',
         contentType: 'application/json',
-        data: JSON.stringify(cart),
+        data: JSON.stringify({ cart: cart }),
         dataType: 'json',
         success: function(response) { 
           console.log("Cart saved succesfully to server.");

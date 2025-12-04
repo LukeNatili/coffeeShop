@@ -75,13 +75,13 @@ async function connectDB() {
 // 	fs.writeFileSync(dataFile, JSON.stringify(dataArray, null, 2));
 // }
 
-// function sendJSON(res, statusCode, data) {
-// 	res.setHeader('Access-Control-Allow-Origin', '*');
-// 	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
-// 	res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-// 	res.writeHead(statusCode, {'Content-Type': 'application/json'});
-// 	res.end(JSON.stringify(data));
-// }
+function sendJSON(res, statusCode, data) {
+	res.setHeader('Access-Control-Allow-Origin', '*');
+	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
+	res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+	res.writeHead(statusCode, {'Content-Type': 'application/json'});
+	res.end(JSON.stringify(data));
+}
 
 
 //No longer need local JSON store, code above commented out but kept for reference - LP
@@ -101,6 +101,14 @@ const RESOURCE_MAP = {
 const server = http.createServer(async (req, res) => {
 	const {method, url} = req;
 
+	if (method === 'OPTIONS') {	
+		res.setHeader('Access-Control-Allow-Origin', '*');
+		res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
+		res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+	
+		res.writeHead(204);
+		return res.end();
+	}
 	const urlParts = url.split('/').filter(Boolean); //split url and remove empty string/falsy values.
 	const resource = urlParts[1]; //find if we are going into products or orders, or other resource
 	const id = urlParts[2]; //find id of resource where applicable
@@ -115,14 +123,6 @@ const server = http.createServer(async (req, res) => {
 	// const dataFile = mapped.file;
 	
 	//CORS
-	if (method === 'OPTIONS') {	
-		res.setHeader('Access-Control-Allow-Origin', '*');
-		res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
-		res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-	
-		res.writeHead(204);
-		return res.end();
-	}
 	//Rewritten - Retrieve resource from server
 	if (method ==='GET' && urlParts[0] === 'api') {
 		try{
