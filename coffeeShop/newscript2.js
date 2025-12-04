@@ -108,15 +108,15 @@ if (form) {
   }
   // NEW: Helper to load/save the cart
   function loadCart() {
-    //$.ajax({
-    //  url: 'http://localhost:8000/api/cart',
-    //  method: 'GET',
-    //  dataType: 'json',
-    //  success: function(data) {
-    //    cart = data || [];
-    //    console.log("Cart loaded from server. ");
-    //  }
-    //})
+    $.ajax({
+     url: 'http://localhost:8000/api/cart',
+     method: 'GET',
+     dataType: 'json',
+     success: function(data) {
+       cart = data || [];
+       console.log("Cart loaded from server. ");
+     }
+    })
     try {
       var raw = localStorage.getItem(CART_KEY);
       cart = raw ? JSON.parse(raw) : [];
