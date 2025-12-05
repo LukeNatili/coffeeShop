@@ -127,8 +127,8 @@ const server = http.createServer(async (req, res) => {
 	if (method ==='GET' && urlParts[0] === 'api') {
 		try{
 			if (!id) {
-				const items = await collection.find({}).toArray();
-				return sendJSON (res, 200, dataArray) //All data should have an ID though
+			const items = await collection.find({}).toArray();
+				return sendJSON(res, 200, dataArray); //All data should have an ID though
 			}
 			else {
 				const { ObjectID } = require('mongodb');
