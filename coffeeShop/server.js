@@ -128,7 +128,7 @@ const server = http.createServer(async (req, res) => {
 		try{
 			if (!id) {
 			const items = await collection.find({}).toArray();
-				return sendJSON(res, 200, items); //All data should have an ID though
+				return sendJSON(res, 200, dataArray); //All data should have an ID though
 			}
 			else {
 				const { ObjectID } = require('mongodb');
