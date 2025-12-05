@@ -5,7 +5,7 @@ const { send } = require('process');
 const port = 8000;
 const crypto = require('crypto');
 const { MongoClient } = require('mongodb');
-const uri = 'mongodb://localhost:27017'; //seems to be default for local MongoDB installations
+const uri = 'mongodb+srv://lukenatili123_db_user:SqdaJCWEroGbMa4d@coffeshopdb.s7bgp3q.mongodb.net/?appName=CoffeShopDB'; //seems to be default for local MongoDB installations
 const dbName = 'coffeShopDB';
 let db;
 

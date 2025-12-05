@@ -149,18 +149,16 @@ if (form) {
      success: function(data) {
        cart = data || [];
        console.log("Cart loaded from server. ");
-       updateUI();}
-    })
-    try {
-      var raw = localStorage.getItem(CART_KEY);
-      cart = raw ? JSON.parse(raw) : [];
-    } catch (e) {
-      cart = [];
-    }
+       updateUI();},
+       error: function() {
+        cart = [];
+        console.error("Error loading cart from server, starting with empty cart.");
+        updateUI();
+       }
+    }) 
   }
   function saveCart() {
     if(cart) {
-      cart.unshift({ID: CART_KEY}); //add random id number to cart. would in future need to check against existing cart ids
       $.ajax({
         url: 'http://localhost:8000/api/cart',
         method: 'POST',
@@ -176,9 +174,6 @@ if (form) {
         
       })
     }
-    try {
-      localStorage.setItem(CART_KEY, JSON.stringify(cart));
-    } catch (e) { /* no-op */ }
   }
   function generateOrderNumber() {		
 		const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -506,25 +501,25 @@ $('.col-12.col-lg-3').each(function() {
 		}
 	});
  });
-	
-$.ajax({
-	url: 'http://localhost:8000/api/products',
-	method: 'GET',
-	dataType: 'json',
-	success: function(data) {
-		products = data.reduce((a, item) => {
-			a[item.id] = item;
-			return a;
-		},{});
-		console.log("Products loaded from api server");
+//TODO: Load products from server, need to wrap this into a function -L	
+// $.ajax({
+// 	url: 'http://localhost:8000/api/products',
+// 	method: 'GET',
+// 	dataType: 'json',
+// 	success: function(data) {
+// 		products = data.reduce((a, item) => {
+// 			a[item.id] = item;
+// 			return a;
+// 		},{});
+// 		console.log("Products loaded from api server");
 		
-		presentProducts();
-	},
-	error: function(jqXHR, textStatus, errorThrown) {
-		console.error("Error loading from api server: ", textStatus, errorThrown);
-		presentProducts(); 
-	}
-});
+// 		presentProducts();
+// 	},
+// 	error: function(jqXHR, textStatus, errorThrown) {
+// 		console.error("Error loading from api server: ", textStatus, errorThrown);
+// 		presentProducts(); 
+// 	}
+// });
 
 
 });
