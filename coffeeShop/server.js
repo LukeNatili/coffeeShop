@@ -5,8 +5,8 @@ const { send } = require('process');
 const port = 8000;
 const crypto = require('crypto');
 const { MongoClient } = require('mongodb');
-const uri = 'mongodb+srv://lukenatili123_db_user:SqdaJCWEroGbMa4d@coffeshopdb.s7bgp3q.mongodb.net/?appName=CoffeShopDB'; //seems to be default for local MongoDB installations
-const dbName = 'coffeShopDB';
+const uri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017'; // set MONGO_URI for Atlas or other remote DB
+const dbName = process.env.DB_NAME || 'coffeShopDB';
 let db;
 
 function generateSessionID() {
@@ -77,7 +77,7 @@ async function connectDB() {
 
 function sendJSON(res, statusCode, data) {
 	res.setHeader('Access-Control-Allow-Origin', '*');
-	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
+	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 	res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 	res.writeHead(statusCode, {'Content-Type': 'application/json'});
 	res.end(JSON.stringify(data));
@@ -86,15 +86,20 @@ function sendJSON(res, statusCode, data) {
 
 //No longer need local JSON store, code above commented out but kept for reference - LP
 const RESOURCE_MAP = {
-	'products': {
-		collection: 'products'
-	},
-	'orders': {
-		collection: 'orders'
-	},
-	'cart': {
-		collection: 'cart'
-	}
+	'products': { collection: 'products' },
+
+	// Storefront-required collections
+	'shopper':  { collection: 'shopper' },
+	'shoppers': { collection: 'shopper' }, // alias
+
+	'cart': { collection: 'cart' },
+	'shoppingcart': { collection: 'cart' },   // alias
+	'shopping-cart': { collection: 'cart' },  // alias
+
+	'returns': { collection: 'returns' },
+
+	// Kept for backward-compatibility (if you still use it)
+	'orders': { collection: 'orders' }
 };
 
 //Rewrite of server code to make more portable/reusable - LP
@@ -103,7 +108,7 @@ const server = http.createServer(async (req, res) => {
 
 	if (method === 'OPTIONS') {	
 		res.setHeader('Access-Control-Allow-Origin', '*');
-		res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
+		res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 		res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 	
 		res.writeHead(204);
@@ -128,13 +133,13 @@ const server = http.createServer(async (req, res) => {
 		try{
 			if (!id) {
 			const items = await collection.find({}).toArray();
-				return sendJSON(res, 200, dataArray); //All data should have an ID though
+				return sendJSON(res, 200, items); //All data should have an ID though
 			}
 			else {
-				const { ObjectID } = require('mongodb');
+				const { ObjectId } = require('mongodb');
 				let item;
 				try {
-					item  = await collection.findOne({_id:  new ObjectID(id)});
+					item  = await collection.findOne({_id:  new ObjectId(id)});
 				}
 				catch (err) {
 					return sendJSON(res, 400, {error: `${resource}: ${id} was not found (invalid id)`});
@@ -164,7 +169,9 @@ const server = http.createServer(async (req, res) => {
 				
 				const result = await collection.insertOne(item);
 				
-				sendJSON(res, 201, item);
+				// return the created item including the MongoDB _id
+				const createdItem = { ...item, _id: result.insertedId };
+				sendJSON(res, 201, createdItem);
 			}
 			catch (err) {
 				console.error('Error processing POST request', err);
@@ -174,11 +181,46 @@ const server = http.createServer(async (req, res) => {
 		return;
 	}
 	
+
+	//Update (PUT) - update fields on an existing document (full CRUD requirement)
+	if (method === 'PUT' && urlParts[0] === 'api' && id) {
+		let body = '';
+		req.on('data', chunk => (body += chunk));
+		req.on('end', async () => {
+			try {
+				const update = JSON.parse(body);
+				// don't allow changing _id
+				if (update._id) delete update._id;
+
+				const { ObjectId } = require('mongodb');
+				let objectId;
+				try {
+					objectId = new ObjectId(id);
+				} catch (err) {
+					return sendJSON(res, 400, { error: `${resource}: ${id} was not found (invalid id)` });
+				}
+
+				const result = await collection.updateOne({ _id: objectId }, { $set: update });
+				if (result.matchedCount === 0) {
+					return sendJSON(res, 404, { error: `${resource}: ${id} not found` });
+				}
+
+				const updatedItem = await collection.findOne({ _id: objectId });
+				return sendJSON(res, 200, updatedItem);
+			}
+			catch (err) {
+				console.error('Error processing PUT request', err);
+				return sendJSON(res, 400, { error: 'Invalid JSON or database update error' });
+			}
+		});
+		return;
+	}
+
 	//Deleting products from server
 	if(method === 'DELETE' && urlParts[0] === 'api' && id) {
 		try {
-			const { ObjectID } = require('mongodb');
-			const result = await collection.deleteOne({_id: new ObjectID(id)});
+			const { ObjectId } = require('mongodb');
+			const result = await collection.deleteOne({_id: new ObjectId(id)});
 			if (result.deletedCount === 0) {
 				return sendJSON(res, 404, {error: `${resource}: ${id} not found`});
 			}
