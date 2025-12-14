@@ -100,6 +100,7 @@ if (form) {
   // NEW: Basic in-memory cart with localStorage fallback (keeps it simple)
   var CART_KEY = '';
   var cart = [];
+  var checkoutCart = [];
 
   if (!CART_KEY) {
     CART_KEY = generateOrderNumber();
@@ -451,13 +452,23 @@ function deleteClick(buttonDelete) {
   //Submitting the form w/add
 $('#new-product-form').on('submit', function(e) {
     e.preventDefault();
-	
+
+	const isUpdate = $('#add-product-btn').text().includes('Update');
 	const newProductData = formSubmit();
 	
 	if (newProductData) {
+    const productID = newProductData.id;
+    let url = 'http://localhost:8000/api/products';
+    let method = 'POST';
+
+    if (isUpdate) {
+      url = `http://localhost:8000/api/products/${productID}`;
+      method = 'PUT';
+    }
+
 		$.ajax({
-			url: 'http://localhost:8000/api/products',
-			method: 'POST',
+			url: url,
+			method: method,
 			contentType: 'application/json',
 			data: JSON.stringify(newProductData),
 			dataType: 'json',
@@ -467,6 +478,9 @@ $('#new-product-form').on('submit', function(e) {
 			products[newProductData.id] = newProductData;
 			presentProducts();
 			e.currentTarget.reset();
+
+      $('product-id').prop('readonly', false);
+      $('#add-product-btn').text('Add Product').removeClass('btn-warning').addClass('btn-amber-elegant');
 			},
 			
 			error: function(jqXHR, textStatus, errorThrown) {
@@ -502,24 +516,27 @@ $('.col-12.col-lg-3').each(function() {
 	});
  });
 //TODO: Load products from server, need to wrap this into a function -L	
-// $.ajax({
-// 	url: 'http://localhost:8000/api/products',
-// 	method: 'GET',
-// 	dataType: 'json',
-// 	success: function(data) {
-// 		products = data.reduce((a, item) => {
-// 			a[item.id] = item;
-// 			return a;
-// 		},{});
-// 		console.log("Products loaded from api server");
-		
-// 		presentProducts();
-// 	},
-// 	error: function(jqXHR, textStatus, errorThrown) {
-// 		console.error("Error loading from api server: ", textStatus, errorThrown);
-// 		presentProducts(); 
-// 	}
-// });
+function loadProducts() {
+    $.ajax({
+    url: 'http://localhost:8000/api/products',
+    method: 'GET',
+    dataType: 'json',
+    success: function(data) {
+      products = data.reduce((a, item) => {
+        a[item.id] = item;
+        return a;
+      },{});
+      console.log("Products loaded from api server");
+      
+      presentProducts();
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      console.error("Error loading from api server: ", textStatus, errorThrown);
+      presentProducts(); 
+    }
+    });
+}
 
+loadProducts();
 
 });

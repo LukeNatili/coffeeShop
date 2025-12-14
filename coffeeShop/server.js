@@ -11,6 +11,22 @@ let db;
 
 function generateSessionID() {
 	return crypto.randomBytes(16).toString('hex');
+
+
+}
+
+
+function getCookies(req, name) {
+	const cookieHeader = req.headers.cookie;
+	if (!cookieHeader) return null;
+
+	const cookies = cookieHeader.split(';').map(c => c.trim());
+	for (const cookie of cookies) {
+		if (cookie.startsWith(`${name}=`)) {
+			return cookie.substring(name.length + 1);
+		}
+	}
+	return null;
 }
 
 async function connectDB() {
@@ -79,6 +95,8 @@ function sendJSON(res, statusCode, data) {
 	res.setHeader('Access-Control-Allow-Origin', '*');
 	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 	res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+	extraHeaders.forEach(header=> res.setHeader(header.name, header.value));
+
 	res.writeHead(statusCode, {'Content-Type': 'application/json'});
 	res.end(JSON.stringify(data));
 }
@@ -101,10 +119,21 @@ const RESOURCE_MAP = {
 	// Kept for backward-compatibility (if you still use it)
 	'orders': { collection: 'orders' }
 };
-
+const SESSION_COOKIE_NAME = 'sessionID';
 //Rewrite of server code to make more portable/reusable - LP
 const server = http.createServer(async (req, res) => {
 	const {method, url} = req;
+
+	let sessionID = getCookies(req, SESSION_COOKIE_NAME);
+	if (!sessionID) {
+		sessionID = generateSessionID();
+
+		setCookieHeader = {
+			name: 'Set-Cookie',
+			value: `${SESSION_COOKIE_NAME}=${sessionID}; HttpOnly`
+		};
+	}
+	const headers = setCookieHeader ? [setCookieHeader] : [];
 
 	if (method === 'OPTIONS') {	
 		res.setHeader('Access-Control-Allow-Origin', '*');
@@ -120,7 +149,7 @@ const server = http.createServer(async (req, res) => {
 
 	const mapped = RESOURCE_MAP[resource];
 	if (!mapped) {
-		return sendJSON(res, 404, {error: `Resource: ${resource} not found`});
+		return sendJSON(res, 404, {error: `Resource: ${resource} not found`}, headers);
 	}
 	const collection = db.collection(mapped.collection); 
 	//Using database now, so no need for local data files/arrays - LP
@@ -130,7 +159,12 @@ const server = http.createServer(async (req, res) => {
 	//CORS
 	//Rewritten - Retrieve resource from server
 	if (method ==='GET' && urlParts[0] === 'api') {
-		try{
+		try {
+			if (resource === 'cart'){ 
+				const cartDocument = await collection.findOne({sessionID: sessionID});
+				const cartItems = (cartDocument && cartDocument.items) ? cartDocument.items : [];
+				return sendJSON(res, 200, cartItems, headers);
+			}
 			if (!id) {
 			const items = await collection.find({}).toArray();
 				return sendJSON(res, 200, items); //All data should have an ID though
@@ -142,17 +176,17 @@ const server = http.createServer(async (req, res) => {
 					item  = await collection.findOne({_id:  new ObjectId(id)});
 				}
 				catch (err) {
-					return sendJSON(res, 400, {error: `${resource}: ${id} was not found (invalid id)`});
+					return sendJSON(res, 400, {error: `${resource}: ${id} was not found (invalid id)`}, headers);
 				}
 				if (!item) {
-					return sendJSON(res, 404, {error: `${resource}: ${id} not found`});
+					return sendJSON(res, 404, {error: `${resource}: ${id} not found`}, headers);
 				}
-				return sendJSON(res, 200, item);
+				return sendJSON(res, 200, item, headers);
 			}
 		}
 		catch (err) {
 			console.error('Error retrieving data from database', err);
-			return sendJSON(res, 500, {error: 'Internal Server Error: YOU BROKE IT!'});
+			return sendJSON(res, 500, {error: 'Internal Server Error: YOU BROKE IT!'}, headers);
 		}
 	}
 
@@ -167,15 +201,25 @@ const server = http.createServer(async (req, res) => {
 				const item = JSON.parse(body);
 				//const exists = dataArray.find( p => p.id === item.id);
 				
+				if (resource === 'cart') {
+					const cartData = Array.isArray(item.cart) ? item.cart : item;
+					await collection.updateOne(
+						{ sessionID: sessionID },
+						{ $set: {
+							sessionID: sessionID,
+							items: cartData}
+						}, 
+					{ upsert: true } );
+					return sendJSON(res, 200, {message: "Cart updated succesfully", sessionID: sessionID}, headers);
+				}
+				// return the created item including the MongoDB _idi
 				const result = await collection.insertOne(item);
-				
-				// return the created item including the MongoDB _id
 				const createdItem = { ...item, _id: result.insertedId };
-				sendJSON(res, 201, createdItem);
+				sendJSON(res, 201, createdItem, headers);
 			}
 			catch (err) {
 				console.error('Error processing POST request', err);
-				sendJSON(res, 400, {error: 'Invalid JSON or database insertion error'});
+				sendJSON(res, 400, {error: 'Invalid JSON or database insertion error'}, headers);
 			}
 		});
 		return;
@@ -197,12 +241,12 @@ const server = http.createServer(async (req, res) => {
 				try {
 					objectId = new ObjectId(id);
 				} catch (err) {
-					return sendJSON(res, 400, { error: `${resource}: ${id} was not found (invalid id)` });
+					return sendJSON(res, 400, { error: `${resource}: ${id} was not found (invalid id)` }, headers);
 				}
 
 				const result = await collection.updateOne({ _id: objectId }, { $set: update });
 				if (result.matchedCount === 0) {
-					return sendJSON(res, 404, { error: `${resource}: ${id} not found` });
+					return sendJSON(res, 404, { error: `${resource}: ${id} not found` }, headers);
 				}
 
 				const updatedItem = await collection.findOne({ _id: objectId });
@@ -210,7 +254,7 @@ const server = http.createServer(async (req, res) => {
 			}
 			catch (err) {
 				console.error('Error processing PUT request', err);
-				return sendJSON(res, 400, { error: 'Invalid JSON or database update error' });
+				return sendJSON(res, 400, { error: 'Invalid JSON or database update error' }, headers);
 			}
 		});
 		return;
@@ -222,13 +266,13 @@ const server = http.createServer(async (req, res) => {
 			const { ObjectId } = require('mongodb');
 			const result = await collection.deleteOne({_id: new ObjectId(id)});
 			if (result.deletedCount === 0) {
-				return sendJSON(res, 404, {error: `${resource}: ${id} not found`});
+				return sendJSON(res, 404, {error: `${resource}: ${id} not found`}, headers);
 			}
-			return sendJSON(res, 200, {message: `${resource}: ${id} deleted successfully`});
+			return sendJSON(res, 200, {message: `${resource}: ${id} deleted successfully`}, headers);
 		}
 		catch (err) {
 			console.error(err);
-			return  sendJSON(res, 500, {error: 'Database deletion error'});
+			return  sendJSON(res, 500, {error: 'Database deletion error'}, headers);
 		}
 	}
 	
