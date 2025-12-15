@@ -91,7 +91,7 @@ async function connectDB() {
 // 	fs.writeFileSync(dataFile, JSON.stringify(dataArray, null, 2));
 // }
 
-function sendJSON(res, statusCode, data) {
+function sendJSON(res, statusCode, data, extraHeaders=[]) {
 	res.setHeader('Access-Control-Allow-Origin', '*');
 	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 	res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -107,8 +107,8 @@ const RESOURCE_MAP = {
 	'products': { collection: 'products' },
 
 	// Storefront-required collections
-	'shopper':  { collection: 'shopper' },
-	'shoppers': { collection: 'shopper' }, // alias
+	'shopper':  { collection: 'shoppers' },
+	'shoppers': { collection: 'shoppers' }, // alias
 
 	'cart': { collection: 'cart' },
 	'shoppingcart': { collection: 'cart' },   // alias

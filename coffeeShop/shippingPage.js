@@ -2,9 +2,55 @@ var shipChoice = document.createElement('div');
 
 var totalCost = document.createElement('div');	
 
-var cart = JSON.parse(localStorage.getItem('cart'));
+var cart = [];
+var itemSubtotal = 0;
 
 var shipCost = 0;
+var carrierChoiceDiv = document.createElement('div');
+
+function loadCartFromServer() {
+	url: 'http://localhost:8000/api/cart',
+	method: 'GET',
+	dataType: 'json',
+	success: function(data) {
+		cart = data || [];
+		initializePage();
+	}
+}
+
+function initializePage() {
+	var itemsContainer = document.getElementById('itemTotal');
+	itemsContainer.innerHTML = '';
+	itemSubtotal = 0;
+
+	if (cart.length === 0) {
+		itemsContainer.innerHTML = '<div>Your cart is empty.</div>';
+	}
+	else {
+		for (let i = 0; i < cart.length; i++) {
+			let itemTotal = cart[i].price * cart[i].qty;
+			itemSubtotal += itemTotal;
+
+			let itemDiv = document.createElement('div');
+			itemDiv.innerHTML = `${cart[i].name} x ${cart[i].qty} @ $${cart[i].price.toFixed(2)} = **$${itemTotal.toFixed(2)}**`;
+			itemsContainer.appendChild(itemDiv);
+		}
+	}
+
+	var carrierDisplay = document.getElementById('carrierChoice');
+	if (carrierDisplay) {
+		carrierDisplay.appendChild(carrierChoiceDiv);
+	}
+	updateCarrier('UPS');
+	updateShipping(5.99);
+	updateTotal();	
+}
+
+
+function updateCarrier(carrier) {
+	carrierChoiceDiv.innerHTML = carrier;
+	updateTotal();
+}
 
 window.onload = function() {
 	var items = document.getElementById('itemTotal');

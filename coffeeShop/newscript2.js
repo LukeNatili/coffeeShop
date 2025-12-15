@@ -111,7 +111,9 @@ if (form) {
     console.log("Existing Cart Session Found with Key: " + CART_KEY);
   }
 
+/* rewrite products page to use CRUD operations -LP */
 
+  
   var items = [
   { id: 'cartCappucino', name: 'Cappucino', price: 9.99, category: "Coffee", size: 4},
   { id: 'cartLatte', name: 'Latte', price: 9.99, category: "Coffee", size: 6 },
@@ -337,97 +339,215 @@ if (form) {
 
 //Javascript for product management page
 // adding existing items to the product management page -ln
-var items = [
-{ id: 'cartCappucino', name: 'Cappucino', price: 9.99, category: "Coffee", size: 4},
-{ id: 'cartLatte', name: 'Latte', price: 9.99, category: "Coffee", size: 6 },
-{ id: 'cartEspresso', name: 'Espresso', price: 6.99, category: "Coffee", size: 2 },
-{ id: 'cartAffogato', name: 'Affogato', price: 11.99, category: "Coffee", size: 10 },
-{ id: 'cartAmericano', name: 'Americano', price: 6.99, category: "Coffee", size: 8 },
-{ id: 'cartMocha', name: 'Mocha', price: 11.99, category: "Coffee", size: 6 },
-{ id: 'cartIrish', name: 'Irish', price: 13.99, category: "Coffee", size: 8 },
-{ id: 'cartMacchiato', name: 'Macchiato', price: 8.99, category: "Coffee", size: 6 },
-{ id: 'cartBlack', name: 'Black', price: 4.99, category: "Coffee", size: 8 },
-{ id: 'cartDecaf', name: 'Decaf', price: 4.99, category: "Coffee", size: 8 }
-];
-localStorage.setItem('products', JSON.stringify(items)); 
+// var items = [
+// { id: 'cartCappucino', name: 'Cappucino', price: 9.99, category: "Coffee", size: 4},
+// { id: 'cartLatte', name: 'Latte', price: 9.99, category: "Coffee", size: 6 },
+// { id: 'cartEspresso', name: 'Espresso', price: 6.99, category: "Coffee", size: 2 },
+// { id: 'cartAffogato', name: 'Affogato', price: 11.99, category: "Coffee", size: 10 },
+// { id: 'cartAmericano', name: 'Americano', price: 6.99, category: "Coffee", size: 8 },
+// { id: 'cartMocha', name: 'Mocha', price: 11.99, category: "Coffee", size: 6 },
+// { id: 'cartIrish', name: 'Irish', price: 13.99, category: "Coffee", size: 8 },
+// { id: 'cartMacchiato', name: 'Macchiato', price: 8.99, category: "Coffee", size: 6 },
+// { id: 'cartBlack', name: 'Black', price: 4.99, category: "Coffee", size: 8 },
+// { id: 'cartDecaf', name: 'Decaf', price: 4.99, category: "Coffee", size: 8 }
+// ];
+// localStorage.setItem('products', JSON.stringify(items)); 
+
+
 
 let products = {}; //Load saved products or create new products list
+
+const $productForm = $('#new-product-form');
+const $productIDInput = $('#product-id');
+const $submitButton = $('#submit-new');
+const $cancelButton = $('#cancel-new');
+const $productsTableBody = $('#product-list');
+
+function loadProducts() {
+    $.ajax({
+        url: 'http://localhost:8000/api/products',
+        method: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            products = data.reduce((map, item) => {
+                map[item._id] = item;
+                return map;
+            }, {});
+            
+            console.log("Products successfully loaded from API server.");
+            presentProducts();
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error("Error loading products from API server: ", textStatus, errorThrown);
+            presentProducts(); 
+        }
+    });
+}
 
 //function saveProducts() {
 //  localStorage.setItem('products', JSON.stringify(products));
 //}
 
 function presentProducts() {
-  const $list = $('#product-list');
-  $list.empty();
-  console.log('Entering render Produts Fucntion');
+    $productsTableBody.empty();
+    const productsArray = Object.values(products); // Get values from the map
 
-  const productsArray = Object.entries(products);
-
-  if (productsArray.length === 0) {
-    console.log("No products to render");
-    $list.append('<tr><td colspan="6">No products added yet. </td></tr>');
-    return;
+    if (productsArray.length === 0) {
+        $productsTableBody.append('<tr><td colspan="6" class="text-center">No products added yet.</td></tr>');
+        return;
     }
-  //Creates the rows in the table using items from the products either created or loaded in. 
-  productsArray.forEach(([id, product]) => {
-    const $row = `
-      <tr data-id="${id}">
-        <td>${id}</td>
-        <td>${product.name}</td>
-        <td>${product.price.toFixed(2)}</td>
-        <td>${product.category}</td>
-        <td>${product.size}</td>
-        <td>
-          <button class="btn btn-amber-elegant fw-semibold edit-btn">Edit</button>
-          <button class="btn btn-amber-elegant fw-semibold delete-btn">Delete</button>
-        </td>
-      </tr>`
-  $list.append($row);
-  console.log("Appended to lsit with ID: " + product.id);    
+
+    productsArray.forEach(product => {
+        const id = product._id;
+        
+        const $row = `
+            <tr data-id="${id}">
+                <td>${product.name}</td>
+                <td>$${product.price ? parseFloat(product.price).toFixed(2) : '0.00'}</td>
+                <td>${product.category || 'N/A'}</td>
+                <td>${product.size || '--'}</td>
+                <td>
+                    <button class="btn btn-warning fw-semibold edit-btn">Edit</button>
+                    <button class="btn btn-danger fw-semibold delete-btn">Delete</button>
+                </td>
+            </tr>`;
+        $productsTableBody.append($row);
+    });
+}
+function getFormData() {
+  const id = $productIDInput.val().trim();
+  const name = $('#product-name').val().trim();
+  const price = parseFloat($('#product-price').val().trim());
+  const description = $('#product-description').val().trim();
+  const category = $('#product-category').val().trim();
+  const size = parseInt($('#product-size').val().trim());
+
+  if(!id || !name || isNaN(price) || price <=0  || !description || !category || isNaN(size) || size <= 0) {
+    alert("Please fill in all fields correctly. ");
+    return null;
+  }
+  const productData = {
+    id: id,
+    name: name,
+    price: price,
+    description: description,
+    category: category,
+    size: size};
+
+    return productData;
+  }
+
+function clearForm() {
+  $productForm[0].reset();
+  $productIDInput.prop('readonly', false);
+  $('#add-product-btn').text('Add Product').removeClass('btn-warning').addClass('btn-amber-elegant'); 
+  $('#new-product-title').text('Add New Product');
+  $cancelButton.hide();
+}  
+
+$productForm.on('submit', function(e) {
+  e.preventDefault();
+  
+  const productData = getFormData();
+  if (!productData) return;
+
+  const productID = productData.id;
+  const isUpdate = $submitButton.text().includes('Update');
+
+  let url = 'http://localhost:8000/api/products';
+  let method = 'POST';
+
+  if (isUpdate){
+    url = `${url}/${productID}`;
+    method = 'PUT'; 
+  }
+  else if (productID in products) {
+    alert(`Product with ID: ${productID} already exists. Please modify with Edit or Delete. `);
+    return
+  }
+
+  $.ajax({
+    url: url,
+    method: method,
+    contentType: 'application/json',
+    data: JSON.stringify(productData),
+    dataType: 'json',
+
+    success: function(response) {
+      console.log(`Product ${isUpdate ? 'updated' : 'added'} successfully.`);
+      products[response._id] = response;
+      presentProducts();
+      clearForm();
+    },
+    error:function(jqXHR, textStatus, errorThrown) {
+      console.eerror(`Error ${isUpdate ? 'updating' : 'adding'} product: `, textStatus, errorThrown);
+      alert(`Failed to ${isUpdate ? 'update' : 'add'} product.`);
+    }
   });
+});
 
+$('#product-list-section').on('click', '.edit-btn', function () {
+  const $row = $(this).closest('tr');
+  const productID = $row.data('id');
+  const productEdit = products[productID];
+
+  if (!productEdit) {
+    alert(`Product with ID: ${productID} not found. `);
+    return;
   }
 
-function formSubmit() {
-      const id = $('#product-id').val();
-      const name = $('#product-name').val();
-      const price = parseFloat($('#product-price').val());
-      const desc = $('#product-description').val();
-      const category = $('#product-category').val();
-      const size = parseInt($('#product-size').val());
+  $('#new-product-title').text('Update Product: ' + productID);
+  $productIDInput.val(productID).prop('readonly', true);
+  $('#product-name').val(productEdit.name);
+  $('#product-price').val(productEdit.price);
+  $('#product-description').val(productEdit.description);
+  $('#product-category').val(productEdit.category);
+  $('#product-size').val(productEdit.size);
 
-      console.log("ID:", id, "Name:", name, "Price", price, "Desc", desc, "Category", category, "size", size);
+  $submitButton.text('Update Product').removeClass('btn-amber-elegant').addClass('btn-warning');
+  $cancelButton.show();
+})
 
 
-      if(!id || !name || isNaN(price) || price <=0  || !desc || !category || isNaN(size) || size <= 0) {
-        alert("Please fill in all fields. ");
-        return false;
+// function formSubmit() {
+//       const id = $('#product-id').val();
+//       const name = $('#product-name').val();
+//       const price = parseFloat($('#product-price').val());
+//       const desc = $('#product-description').val();
+//       const category = $('#product-category').val();
+//       const size = parseInt($('#product-size').val());
 
-      }
+//       console.log("ID:", id, "Name:", name, "Price", price, "Desc", desc, "Category", category, "size", size);
 
-      if(id in products) {
-        alert(`Product with ID: ${id} already exists. Please modify with Edit or Delete. `);
-        return false;
-      }
 
-      const newProduct = {
-		id:id,
-        name: name,
-        price: price,
-        description: desc,
-        category: category,
-        size: size
+//       if(!id || !name || isNaN(price) || price <=0  || !desc || !category || isNaN(size) || size <= 0) {
+//         alert("Please fill in all fields. ");
+//         return false;
 
-	  }
+//       }
+
+//       if(id in products) {
+//         alert(`Product with ID: ${id} already exists. Please modify with Edit or Delete. `);
+//         return false;
+//       }
+
+//       const newProduct = {
+// 		id:id,
+//         name: name,
+//         price: price,
+//         description: desc,
+//         category: category,
+//         size: size
+
+// 	  }
       //products[id] = newProduct;
-      console.log("Added product successfully");
-      return newProduct;
-  }
+  //     console.log("Added product successfully");
+  //     return newProduct;
+  // }
 
 function deleteClick(buttonDelete) {
-	var $row = $(buttonDelete).closest('tr');
-	var productID = $row.data('id');
+	const $row = $(buttonDelete).closest('tr');
+	const productID = $row.data('id');
 	
 	if(confirm(`Are you sure you want to delete product with ID ${productID}?`)) {
 		$.ajax ({
@@ -450,48 +570,8 @@ function deleteClick(buttonDelete) {
 
   presentProducts();
   //Submitting the form w/add
-$('#new-product-form').on('submit', function(e) {
-    e.preventDefault();
 
-	const isUpdate = $('#add-product-btn').text().includes('Update');
-	const newProductData = formSubmit();
-	
-	if (newProductData) {
-    const productID = newProductData.id;
-    let url = 'http://localhost:8000/api/products';
-    let method = 'POST';
-
-    if (isUpdate) {
-      url = `http://localhost:8000/api/products/${productID}`;
-      method = 'PUT';
-    }
-
-		$.ajax({
-			url: url,
-			method: method,
-			contentType: 'application/json',
-			data: JSON.stringify(newProductData),
-			dataType: 'json',
-			
-			success: function(response) {
-			console.log("product added successfully. ");
-			products[newProductData.id] = newProductData;
-			presentProducts();
-			e.currentTarget.reset();
-
-      $('product-id').prop('readonly', false);
-      $('#add-product-btn').text('Add Product').removeClass('btn-warning').addClass('btn-amber-elegant');
-			},
-			
-			error: function(jqXHR, textStatus, errorThrown) {
-				console.error("Error adding new product: ", textStatus, errorThrown);
-				alert("Failed to add product");
-			}
-			}
-	)};
-	}
-);
-	$('#products-table').on('click', '.delete-btn', function() {
+$('#products-table').on('click', '.delete-btn', function() {
 		deleteClick(this);
 	})
 	
